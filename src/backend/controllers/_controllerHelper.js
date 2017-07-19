@@ -5,12 +5,13 @@ import Joi                  from 'joi';
 
 
 import errorHelper          from '../helpers/errorHelper';
-// import AppError          from '../appError';
+import AppError             from '../appError';
 
 
 function sendFailureMessage(error, res) {
-    errorHelper.logError(error);
-    let errorMessage = errorHelper.getErrorMessage(error);
+    const config =
+    errorHelper.logError(error,config);
+    let errorMessage = errorHelper.getErrorMessage(error,config);
 
     res.send({'status': 'failure', message: errorMessage});
 }

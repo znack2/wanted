@@ -1,9 +1,9 @@
 import {Strategy as LocalStrategy} from 'passport-local';
-import userRepository from '../database/repositories/userRepository';
-import textValue from '../helpers/textValueHelper';
-import moment from 'moment';
-import AppError from '../appError';
-import helper from './authHelper';
+import userRepository       from '../database/repositories/userRepository';
+import textValue            from '../helpers/textValueHelper';
+import moment               from 'moment';
+import AppError             from '../appError';
+import helper               from './authHelper';
 
 export default function init(passport) {
     let strategySettings = {

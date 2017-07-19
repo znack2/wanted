@@ -1,7 +1,7 @@
 import { isString, merge } from 'lodash'
 
 
-function AppError() {
+function AppError(args) {
     Error.captureStackTrace(this, this.constructor)
 
     //signature type, code, options

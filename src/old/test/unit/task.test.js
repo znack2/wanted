@@ -1,6 +1,4 @@
-'use strict';
 
-var expect = require('expect.js');
 
 describe('models/task', function () {
   before(function () {

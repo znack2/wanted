@@ -1,8 +1,9 @@
-import { takeEvery,put,select }        from 'redux-saga/effects'
-import defaultState                    from '../../data/config/db'
-import server                          from '../server'
+import { takeEvery, put, select }       from 'redux-saga/effects'
+import app                              from '../../data/config/app'
+import server                           from '../server'
 
 const name = `app`
+const result = app()
 
 const types = {
   // LOAD_SAGA: `${ name }/LOAD_SAGA`,
@@ -15,7 +16,7 @@ const types = {
   // START_FAILED: `${ name }/STOP_SAGA`,
 }
 
-const reducer = (state = defaultState, action) => {
+const reducer = (state = result, action) => {
   const { type, payload } = action
   switch (type) {
     case types.LOAD_SUCCESS: {
@@ -46,9 +47,9 @@ const reducer = (state = defaultState, action) => {
 function* processStart() {
   try {
     const state = yield select()
-    const PORT = state.app.PORT
+    const config = state.app
 
-    const result = yield server.init({ PORT })
+    const result = yield server.init({ config })
 
     // yield put({ type: types.START_SUCCESS, payload: result })
   } catch (error) {
@@ -59,10 +60,10 @@ function* processStart() {
 function* processStop() {
   try {
     const state = yield select()
-    const PORT = state.app.PORT
+    const config = state.app.PORT
 
     console.log('stop server')
-    // const result = yield server.stop({ PORT })
+    // const result = yield server.stop({ config })
 
     // yield put({ type: types.START_SUCCESS, payload: result })
   } catch (error) {

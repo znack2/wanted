@@ -15,7 +15,7 @@ function initRoutes(app, passport) {
     //get api routes
     // initApiRoutes()
 
-    app.get('/', homeController.test1)
+    app.get('/test1', homeController.test1)
 
     //home page
     // helper.get('/', homeController.home, {view: true})

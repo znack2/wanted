@@ -1,7 +1,8 @@
 import { takeEvery,put,select }        from 'redux-saga/effects'
 import dbInit                          from '../database/database'
 import seeder                          from '../database/seeders/seederDefault'
-import defaultState                    from '../../data/seed'
+import config                          from '../../data/config/db'
+import seedData                        from '../../data/seed/seedData'
 
 const name = `db`
 
@@ -10,7 +11,7 @@ const types = {
   MIGRATE_SAGA: `${ name }/MIGRATE_SAGA`,
 }
 
-const reducer = (state = defaultState, action) => {
+const reducer = (state = config, action) => {
   return state
 }
 

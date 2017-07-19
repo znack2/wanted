@@ -1,6 +1,5 @@
 import {OAuth2Strategy as Strategy} from 'passport-google-oauth';
-import config from '../../config';
-import userRepository from '../../database/repositories/userRepository';
+import userRepository               from '../../database/repositories/userRepository';
 
 let providerName = 'google';
 

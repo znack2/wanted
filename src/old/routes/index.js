@@ -1,6 +1,5 @@
 var express = require('express'),
   jwt     = require('express-jwt'),
-  config  = require('./config'),
   quoter  = require('./quoter');
 import { authLocal }                 from '../services/auth';
 import { authJwt }                   from '../services/auth';

@@ -28,16 +28,16 @@ module.exports = {
       //   allowNull: false,
       //   type: Sequelize.DATE,
       // },
-      todoId: {
-        type: Sequelize.INTEGER,
-        onDelete: 'CASCADE',
-        allowNull: false,
-        references: {
-          model: 'Todos',
-          key: 'id',
-          as: 'todoId',
-        },
-      },
+      // todoId: {
+      //   type: Sequelize.INTEGER,
+      //   onDelete: 'CASCADE',
+      //   allowNull: false,
+      //   references: {
+      //     model: 'Todos',
+      //     key: 'id',
+      //     as: 'todoId',
+      //   },
+      // },
     }),
 
   down: (queryInterface /* , Sequelize */) =>

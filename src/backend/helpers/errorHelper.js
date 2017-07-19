@@ -1,8 +1,8 @@
 import logger               from '../logger'
 import textValue            from './textValueHelper'
-import config               from '../config'
 
-function getErrorMessage(error) {
+
+function getErrorMessage(error,config) {
     if (!error) return ''
 
     if (error.isAppError) {
@@ -24,7 +24,7 @@ function getErrorMessage(error) {
     return 'Server Error'
 }
 
-function logError(error) {
+function logError(error,config) {
     if (!config.app.logErrors) return
 
     if (error.isAppError && !error.log) return

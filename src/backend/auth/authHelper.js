@@ -1,9 +1,9 @@
-import config               from '../config'
 import emailHelper          from '../helpers/emailHelper'
 import errorHelper          from '../helpers/errorHelper'
-import AppError             from '../appError'
 import textValue            from '../helpers/textValueHelper'
 import controllerHelper     from '../controllers/_controllerHelper'
+import AppError             from '../appError'
+
 
 function renderView(viewName, viewModel, req, res) {
     let statusMessage = null

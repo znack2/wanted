@@ -1,7 +1,7 @@
-import userRepository from '../database/repositories/userRepository';
-import googleAuth from './providers/googleAuth';
-import facebookAuth from './providers/facebookAuth';
-import authControllerInit from './authController';
+import userRepository       from '../database/repositories/userRepository';
+import googleAuth           from './providers/googleAuth';
+import facebookAuth         from './providers/facebookAuth';
+import authControllerInit   from './authController';
 
 function initPassport(passport) {
     authControllerInit(passport);

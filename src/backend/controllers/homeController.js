@@ -1,11 +1,12 @@
-// import helper                   from './_controllerHelper'
-// import departmentRepository  from '../repositories/departmentRepository'
-// import Joi                      from 'joi'
-// import { User }                 from '../models'
-
+import Joi                      from 'joi'
 // import HTTPStatus from 'http-status'
-// import contants from '../config/constants'
+
+
+import helper                   from './_controllerHelper'
+// import departmentRepository     from '../repositories/userRepository'
+// import { User }                 from '../models'
 // import { filteredBody } from '../utils/filteredBody'
+
 
 // export const validation = {
 //   create: {
@@ -29,22 +30,22 @@
 // }
 
 
-
 function test1(req, res) {
+  // return res.sendData({data: 'hello'}, res)
   res.status(200).send('privet')
 }
 
-// function test2(req, res) {
-//   try {
-//     return helper.sendData({data: 'hello'}, res)
-//     //render template
-//     // return helper.renderView('home', {}, res)
-//   } catch (err) {
-//     helper.sendFailureMessage(err, res)
-//   }
-// }
+function test2(req, res) {
+  try {
+    return helper.sendData({data: 'hello'}, res)
+    //render template
+    // return helper.renderView('home', {}, res)
+  } catch (err) {
+    helper.sendFailureMessage(err, res)
+  }
+}
 
 export default {
   test1,
-  // test2,
+  test2,
 }

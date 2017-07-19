@@ -31,6 +31,7 @@
     "lodash": "^4.17.4",
     "moment": "^2.14.1",
     "morgan": "^1.8.2",
+    "nconf": "^0.8.4",
     "nodemailer": "^4.0.1",
     "passport": "^0.3.2",
     "passport-facebook": "^2.1.1",
@@ -58,12 +59,12 @@
   "scripts": {
     "start": "node build/server.js",
     "build": "node scripts/buildServer.js",
+    "restart": "npm run build && npm run start",
     "clean": "rimraf build/server",
     "test": "react-app-rewired test --env=jsdom",
     "test2": "NODE_ENV=test mocha",
     "test-ci": "NODE_ENV=test-travis mocha --reporter spec",
     "test-debug": "NODE_ENV=test node_modules/.bin/mocha --debug --debug-brk",
-
     "seed": "node build/server/tasks/syncDb",
     "migrate": "node build/server/tasks/migrateTables"
   }

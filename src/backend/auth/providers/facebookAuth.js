@@ -1,6 +1,5 @@
-import {Strategy} from 'passport-facebook';
-import config from '../../config';
-import userRepository from '../../database/repositories/userRepository';
+import {Strategy}           from 'passport-facebook';
+import userRepository       from '../../database/repositories/userRepository';
 
 let providerName = 'facebook';
 

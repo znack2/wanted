@@ -3,7 +3,6 @@ import moment               from 'moment'
 import winston              from 'winston'
 
 import pathHelper           from './helpers/pathHelper'
-// import config               from './config'
 import AppError             from './appError'
 
 let errorLogger = null
@@ -11,7 +10,8 @@ let performanceLogger = null
 let infoLogger = null
 let performanceCache = {}
 
-function initLoggers() {
+function initLogger(config) {
+
     let getTransportFile = (logFileName) =>
         new winston.transports.File({filename: pathHelper.getDataRelative('logs', logFileName)})
 
@@ -20,6 +20,7 @@ function initLoggers() {
             getTransportFile('performance.log')
         ]
     })
+
 
     errorLogger = new (winston.Logger)({
         transports: [
@@ -32,6 +33,7 @@ function initLoggers() {
             (new (winston.transports.Console)()),
             getTransportFile('errors.log')
         )
+
     }
 
     infoLogger = new (winston.Logger)({
@@ -40,9 +42,21 @@ function initLoggers() {
             getTransportFile('info.log')
         ]
     })
+
+
+        // remove later
+
+      // const logger = new winston.Logger({
+      //   transports: [
+      //     new winston.transports.Console({
+      //       json: true,
+      //       colorize: true,
+      //     }),
+      //   ],
+      // });
 }
 
-function logTimeStart(timerName) {
+function logTimeStart(timerName,config) {
     if (!config.app.isDevLocal) return
 
     if (performanceCache[timerName]) throw new AppError('Timer was already created. Timer name: ' + timerName)
@@ -51,7 +65,7 @@ function logTimeStart(timerName) {
 
 }
 
-function logTimeEnd(timerName) {
+function logTimeEnd(timerName,config) {
     if (!config.app.isDevLocal) return
 
     if (!performanceCache[timerName]) throw new AppError('Timer was not previously created. Timer name: ' + timerName)
