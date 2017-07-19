@@ -1,0 +1,9 @@
+--timeout 2000
+--colors
+--reporter nyan
+--recursive
+
+
+--require babel-register
+--reporter spec
+--timeout 5000
