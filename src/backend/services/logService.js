@@ -2,8 +2,10 @@ import { isError,omit }     from 'lodash'
 import moment               from 'moment'
 import winston              from 'winston'
 
-import pathHelper           from './helpers/pathHelper'
-import AppError             from './appError'
+
+import pathHelper           from '../helpers/pathHelper'
+import AppError             from '../helpers/appError'
+
 
 let errorLogger = null
 let performanceLogger = null
@@ -87,6 +89,15 @@ function logError(err) {
 
     errorLogger.error(err)
 }
+
+
+// function logError(error,config) {
+//   if (!config.app.logErrors) return
+//
+//   if (error.isAppError && !error.log) return
+//
+//   createLog({ error })
+// }
 
 function logInfo(message) {
     infoLogger.info(message)

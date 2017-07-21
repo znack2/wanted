@@ -1,8 +1,8 @@
 import Sequelize            from 'sequelize'
 import models               from './models'
 
-function init(options) {
-    const sequelize = getConnection(options)
+function init(config) {
+    const sequelize = getConnection(config)
     const dbModels = models.init(sequelize)
 
     return {
@@ -11,10 +11,10 @@ function init(options) {
     }
 }
 
-function getConnection(options) {
-    let data = {
+function getConnection(config) {
+    let options = {
         dialect: 'postgres',
-        host: options.port,
+        host: config.port,
         pool: {
             max: 5,
             min: 0,
@@ -28,10 +28,10 @@ function getConnection(options) {
     }
 
     return new Sequelize(
-      options.db.dbName,
-      options.db.username,
-      options.db.password,
-      data
+      config.db.dbName,
+      config.db.username,
+      config.db.password,
+      options
     )
 }
 

@@ -1,5 +1,5 @@
-import logger               from '../logger'
-import textValue            from './textValueHelper'
+// import createLog            from './createLog'
+import textValue            from '../helpers/textValueHelper'
 
 
 function getErrorMessage(error,config) {
@@ -24,16 +24,7 @@ function getErrorMessage(error,config) {
     return 'Server Error'
 }
 
-function logError(error,config) {
-    if (!config.app.logErrors) return
-
-    if (error.isAppError && !error.log) return
-
-    logger.error(error)
-}
-
-
 export default {
-  logError,
+  // logError,
   getErrorMessage
 }

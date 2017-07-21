@@ -1,5 +1,5 @@
-import { forEach,upperFirst,keys } from 'lodash'
-import Sequelize              from 'sequelize'
+import { forEach,upperFirst,keys }  from 'lodash'
+import Sequelize                    from 'sequelize'
 
 
 const models = [

@@ -3,9 +3,8 @@ import app                              from '../../data/config/app'
 import server                           from '../server'
 
 const name = `app`
-const result = app()
 
-const types = {
+export const types = {
   // LOAD_SAGA: `${ name }/LOAD_SAGA`,
 
   START_SAGA: `${ name }/START_SAGA`,
@@ -16,7 +15,7 @@ const types = {
   // START_FAILED: `${ name }/STOP_SAGA`,
 }
 
-const reducer = (state = result, action) => {
+const reducer = (state = app(), action) => {
   const { type, payload } = action
   switch (type) {
     case types.LOAD_SUCCESS: {

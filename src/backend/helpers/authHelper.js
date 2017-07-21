@@ -1,8 +1,10 @@
-import emailHelper          from '../helpers/emailHelper'
-import errorHelper          from '../helpers/errorHelper'
-import textValue            from '../helpers/textValueHelper'
-import controllerHelper     from '../controllers/_controllerHelper'
-import AppError             from '../appError'
+import createLog            from '../tasks/createLog'
+import sendEmail            from '../tasks/sendEmail'
+import sendError            from '../tasks/sendError'
+
+import textValue            from './textValueHelper'
+import controllerHelper     from './controllerHelper'
+import AppError             from './appError'
 
 
 function renderView(viewName, viewModel, req, res) {
@@ -67,30 +69,6 @@ function sendAuthMessage(message, type, done, req) {
     return done()
 }
 
-function sendResetPasswordEmail(email, token) {
-    let data = {
-        token,
-        siteRootUrl: config.app.rootUrl
-    }
-
-    return emailHelper.sendEmailTemplate('password_reset', data, {
-        to: email,
-        from: config.email.fromNoReply
-    })
-}
-
-function sendActivationEmail(email, token) {
-    let data = {
-        token,
-        siteRootUrl: config.app.rootUrl
-    }
-
-    return emailHelper.sendEmailTemplate('activation', data, {
-        to: email,
-        from: config.email.fromNoReply
-    })
-}
-
 function isValidEmail(email) {
     const re = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i
     return re.test(email)
@@ -115,9 +93,11 @@ function isValidPassword(password) {
 }
 
 function handleError(error) {
-    errorHelper.logError(error)
 
-    let errorMessage = errorHelper.getErrorMessage(error)
+    createLog({ error })
+    sendError({ error })
+
+    let errorMessage = sendError.getErrorMessage(error)
 
     if (!errorMessage) return 'Auth Error' //Cannot find error description
 
@@ -131,8 +111,6 @@ export default {
   redirectToLogIn,
   sendAuthErrorMessage,
   sendAuthMessage,
-  sendResetPasswordEmail,
-  sendActivationEmail,
   isValidEmail,
   isValidPassword
 }

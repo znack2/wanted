@@ -1,13 +1,27 @@
 import pathHelper           from './pathHelper'
-import _                    from 'lodash'
+import { get }              from 'lodash'
 import template             from 'es6-template-strings'
 import fs                   from 'fs'
+import filename             from '../../data/text/messages'
 
-const textValuesPath  = pathHelper.getDataRelative('text', 'textValues.json')
-const textValuesInfo  = JSON.parse(fs.readFileSync(textValuesPath, 'utf8'))
+
+
+
+// const textValuesPath  = pathHelper.getDataRelative('text','textValues.json')
+// const textValuesInfo  = JSON.parse(fs.readFileSync(result, 'utf8'))
+
 
 function byKey(key, data) {
-    let val = _.get(textValuesInfo, key)
+   console.log('********start*******')
+    const file = filename()
+
+
+  console.log('***************')
+  console.log(file)
+  console.log('***************')
+
+    let val = get(file, key)
+    // let val = get(textValuesInfo, key)
 
     if (!val) return
 

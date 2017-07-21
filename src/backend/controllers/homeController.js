@@ -2,7 +2,7 @@ import Joi                      from 'joi'
 // import HTTPStatus from 'http-status'
 
 
-import helper                   from './_controllerHelper'
+import helper                   from '../helpers/controllerHelper'
 // import departmentRepository     from '../repositories/userRepository'
 // import { User }                 from '../models'
 // import { filteredBody } from '../utils/filteredBody'
@@ -31,8 +31,9 @@ import helper                   from './_controllerHelper'
 
 
 function test1(req, res) {
-  // return res.sendData({data: 'hello'}, res)
-  res.status(200).send('privet')
+  // return res.sendData({}, res)
+  // res.status(200).send('privet')
+  return helper.sendData({data: 'hello'}, res)
 }
 
 function test2(req, res) {

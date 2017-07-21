@@ -12,8 +12,8 @@ import { isError }        from 'lodash'
 import chalk              from 'chalk'
 import flash              from 'connect-flash'
 import passport           from 'passport'
-import cookieParser    from 'cookie-parser'
-import session    from 'cookie-session'
+import cookieParser       from 'cookie-parser'
+import session            from 'cookie-session'
 
 // import cors            from 'cors'
 // import http            from 'http'
@@ -28,8 +28,7 @@ import session    from 'cookie-session'
  * Helpers dependencies.
  */
 import pathHelper             from './helpers/pathHelper'
-import logger                 from './logger'
-// import auth                   from './auth/authInit'
+import createLog              from './tasks/createLog'
 import routes                 from './routes/routes'
 // import checkAuth           from 'middleware/checkAuth'
 // import middlewaresConfig   from './middlewares'
@@ -52,13 +51,17 @@ const app = express()
 /*
  *  START SERVER
  */
+
+
 function init({ config }) {
 
     initExpress(config)
 
-    routes.init(app, passport)
+    initAuth(routes,config)
 
-    logger.init(config)
+    routes.initRoutes(app, passport)
+
+    createLog()
 
     initErrorHandling(app,config)
 
@@ -95,15 +98,14 @@ function initExpress(config) {
 
     //NOTE following required for auth only
     initSession(config)
-    // initAuth()
 }
 
 /*
 * PRIVATE function
 */
-function initAuth() {
+function initAuth(routes,config) {
     app.use(flash())
-    // auth(passport)
+    routes.initPassport(passport,config)
     app.use(passport.initialize())
     app.use(passport.session()) // persistent login sessions
 
@@ -126,8 +128,10 @@ function initSession(config) {
 function initErrorHandling(app,config) {
     //log unhandled errors
     app.use(function (err, req, res, next) {
-        logger.error(err)
-        console.log(err)
+
+        createLog({ err })
+        //logger.error(err)
+        console.log({ err })
 
         let message = isError(err) ? err.message : err
         message = config.app.isDevLocal ? message : 'Server Error'
@@ -136,7 +140,8 @@ function initErrorHandling(app,config) {
     })
 
     process.on('uncaughtException', function (err) {
-        logger.error(err)
+        createLog({ err })
+        //logger.error(err)
     })
 }
 

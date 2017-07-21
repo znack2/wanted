@@ -1,11 +1,13 @@
 import path                 from 'path'
-import _                    from 'lodash'
+import { toArray }          from 'lodash'
 
 let rootPath              = path.join(__dirname, '../../..')
 let defaultDataPath       = path.join(rootPath, 'data')
 
+
 function getRelativePath() {
-    let args = _.toArray(arguments)
+
+    let args = toArray(arguments)
 
     args.unshift(rootPath)
 
@@ -13,7 +15,8 @@ function getRelativePath() {
 }
 
 function getDataRelativePath() {
-    let args = _.toArray(arguments)
+
+    let args = toArray(arguments)
 
     args.unshift(getDataPath())
 
@@ -24,6 +27,7 @@ function getDataRelativePath() {
  *  private function
  */
 function getDataPath() {
+
     if (process.env['NODE_DATA_DIR']) {
         return process.env['NODE_DATA_DIR']
     }

@@ -4,16 +4,20 @@ import { Response }         from 'express';
 import Joi                  from 'joi';
 
 
-import errorHelper          from '../helpers/errorHelper';
-import AppError             from '../appError';
+import createLog            from '../tasks/createLog'
+import sendError            from '../tasks/sendError'
+import getConfig            from '../tasks/getConfig'
+import AppError             from './appError';
+
+
 
 
 function sendFailureMessage(error, res) {
-    const config =
-    errorHelper.logError(error,config);
-    let errorMessage = errorHelper.getErrorMessage(error,config);
-
-    res.send({'status': 'failure', message: errorMessage});
+    // res.send({'status': 'failure', message: errorMessage});
+    // sendError({ error }, { isProxy: false })
+    createLog({ error })
+    sendError({ error })
+    res.send({'status': 'failure', message: error});
 }
 
 function sendSuccessMessage(message, res) {
@@ -25,14 +29,14 @@ function sendData(data, res) {
     res.send(data);
 }
 
-function renderView(viewName, data, res) {
-    if (!data) data = {};
-
-    data.appName = config.app.appName;
-    data.config = getClientConfig();
-
-    res.render(viewName, data);
-}
+// function renderView(viewName, data, res) {
+//     if (!data) data = {};
+//
+//     data.appName = config.app.appName;
+//     data.config = getClientConfig();
+//
+//     res.render(viewName, data);
+// }
 
 // function loadSchema(data, schema) {
 //     let validationOptions = {
@@ -65,6 +69,6 @@ export default {
   sendFailureMessage,
   sendSuccessMessage,
   sendData,
-  renderView,
+  // renderView,
   // loadSchema
 };
