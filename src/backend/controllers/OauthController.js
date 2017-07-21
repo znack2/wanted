@@ -1,17 +1,17 @@
 import {Strategy}            from 'passport-facebook'
-// import {OAuth2Strategy as Strategy} from 'passport-google-oauth';
+// import {OAuth2Strategy as Strategy} from 'passport-google-oauth'
 
 
-import userRepository        from '../database/repositories/userRepository'
 import authController        from './authController'
+import connectDB             from '../tasks/connectDB'
 
 
+// let providerName = 'facebook'
+let providerName = 'google'
 
-// let providerName = 'facebook';
-let providerName = 'google';
 
+function initPassport(passport,config) {
 
-export default function initPassport(passport,config) {
   authController.init(passport)
 
   // passport session setup
@@ -22,7 +22,7 @@ export default function initPassport(passport,config) {
 
   // used to deserialize the user
   passport.deserializeUser(function (id, done) {
-    deserializeUser(id, done)
+    connectDB('deserializeUser',id,done)
   })
 
   let strategySettings = {
@@ -30,45 +30,40 @@ export default function initPassport(passport,config) {
     clientSecret: config.auth[ providerName ].clientSecret,
     callbackURL: `${config.app.rootUrl}/auth/${providerName}/callback`,
     profileFields: ['id', 'emails', 'name']
-  };
+  }
 
-  passport.use(providerName, new Strategy(strategySettings, providerLogin));
-}
+  passport.use(providerName, new Strategy(strategySettings, providerLogin))
 
-function deserializeUser(id, done) {
-  return userRepository.getById(id)
-    .then((user) => {
-      done(null, user)
-    })
-    .catch((err) => {
-      done(err, null)
-    })
 }
 
 async function providerLogin(token, refreshToken, profile, done) {
   try {
-    let providerUser = await userRepository.findUserByAuthProviderId(profile.id, providerName);
+    let providerUser = await connectDB('findUserByAuthProviderId',profile.id, providerName)
 
     if (providerUser) {
-      return done(null, providerUser);
+      return done(null, providerUser)
     }
 
-    let email = (profile.emails[0].value || '').toLowerCase();
+    let email = (profile.emails[0].value || '').toLowerCase()
 
-    let user = await userRepository.findUserWithEmail(email);
+    let user = await connectDB('findUserWithEmail',email)
 
     let profileData = {
       token,
       email,
       id: profile.id,
       name: profile.displayName
-    };
+    }
 
-    user = await userRepository.saveAuthProviderProfile(user, profileData, providerName);
+    user = await connectDB('saveAuthProviderProfile',user, profileData, providerName)
 
-    return done(null, user);
+    return done(null, user)
 
   } catch (err) {
-    return done(err, null);
+    return done(err, null)
   }
+}
+
+export default {
+  initPassport
 }

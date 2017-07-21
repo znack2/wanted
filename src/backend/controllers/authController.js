@@ -1,16 +1,14 @@
 import {Strategy as LocalStrategy} from 'passport-local'
 import moment               from 'moment'
 
-
-import userRepository       from '../database/repositories/userRepository'
 import textValue            from '../helpers/textValueHelper'
 import helper               from '../helpers/authHelper'
 import AppError             from '../helpers/appError'
+
 import sendEmail            from '../tasks/sendEmail'
+import connectDB            from '../tasks/connectDB'
 
-
-export default function init(passport) {
-
+function init(passport) {
   let strategySettings = {
     usernameField: 'email',
     passwordField: 'password',
@@ -69,7 +67,7 @@ async function logInPostLocal(req, email, password, done) {
     if (email) email = email.toLowerCase()
 
     try {
-        let user = await userRepository.getLocalUserByEmail(email)
+        let user = await connectDB('getLocalUserByEmail',email)
 
         // if no user is found
         if (!user) throw new AppError('auth', 'user_not_found')
@@ -78,7 +76,7 @@ async function logInPostLocal(req, email, password, done) {
             throw new AppError('auth', 'account_not_activated')
         }
 
-        let isCorrectPassword = await userRepository.comparePasswords(user.id, password)
+        let isCorrectPassword = await connectDB('comparePasswords',user.id, password)
 
         if (!isCorrectPassword) throw new AppError('auth', 'wrong_password')
 
@@ -108,14 +106,14 @@ async function signUpPostLocal(req, email, password, done) {
 
         if (req.user) throw new AppError('auth', 'already_logged_in')
 
-        let localUser = await userRepository.getLocalUserByEmail(email)
+        let localUser = await connectDB('getLocalUserByEmail',email)
 
         let alreadyActivated = localUser && localUser.profile.local.isActivated
         if (alreadyActivated) throw new AppError('auth', 'email_activated')
 
-        let user = await userRepository.findUserWithEmail(email)
+        let user = await connectDB('findUserWithEmail',email)
 
-        user = await userRepository.saveLocalAccount(user, email, password)
+        user = await connectDB('saveLocalAccount',user, email, password)
 
         //await
         const name = 'activation'
@@ -150,7 +148,8 @@ async function activate(req, res) {
 
         if (!token) throw new AppError('auth', 'activation:no_token')
 
-        let localUser = await userRepository.getUserByActivationToken(token)
+
+        let localUser = await connectDB('getUserByActivationToken',token)
 
         if (!localUser) throw new AppError('auth', 'wrong_activation_token')
 
@@ -158,7 +157,7 @@ async function activate(req, res) {
         let isTokenExpired = moment().diff(activationTime, 'hours') > 24
 
         if (isTokenExpired) {
-            let user = await userRepository.refreshActivationToken(localUser.id)
+            let user = await connectDB('refreshActivationToken',localUser.id)
 
           //await
           const name = 'activation'
@@ -166,7 +165,7 @@ async function activate(req, res) {
 
             throw new AppError('auth', 'activation:expired_token')
         } else {
-            await userRepository.activateUser(localUser.id)
+            await connectDB('activateUser',localUser.id)
 
             let message = textValue.info('auth', 'activation_success')
             return helper.redirectToLogIn(message, 'info', req, res)
@@ -194,11 +193,11 @@ async function forgotPasswordPost(req, res) {
     try {
         let email = req.body.email.toLowerCase()
 
-        let localUser = await userRepository.getLocalUserByEmail(email)
+        let localUser = await connectDB('getLocalUserByEmail',email)
 
         if (!localUser) throw new AppError('auth', 'forgot_password:no_email')
 
-        let updatedUser = await userRepository.resetPassword(localUser.id)
+        let updatedUser = await connectDB('resetPassword',localUser.id)
 
       //await
       const name = 'reset-password'
@@ -241,7 +240,7 @@ async function resetPasswordPost(req, res) {
 
         let localUser = await getUserByResetToken(token)
 
-        await userRepository.updateUserPassword(localUser.id, password)
+        await connectDB('updateUserPassword',localUser.id, password)
 
         let message = textValue.info('auth', 'reset_password_success')
         helper.redirectToLogIn(message, 'success', req, res)
@@ -256,7 +255,7 @@ async function resetPasswordPost(req, res) {
 async function getUserByResetToken(token) {
     if (!token) throw new AppError('auth', 'reset_password:no_token')
 
-    let localUser = await userRepository.getUserByResetToken(token)
+    let localUser =  await connectDB('getUserByResetToken',token)
 
     if (!localUser) throw new AppError('auth', 'reset_password:wrong_token')
 
@@ -264,7 +263,7 @@ async function getUserByResetToken(token) {
     let isTokenExpired = moment().diff(activationTime, 'hours') > 24
 
     if (isTokenExpired) {
-        let user = await userRepository.refreshResetToken(localUser.id)
+        let user = await  await connectDB('refreshResetToken',localUser.id)
 
         //await
         const name = 'reset-password'
@@ -274,4 +273,8 @@ async function getUserByResetToken(token) {
     }
 
     return localUser
+}
+
+export default {
+  init
 }

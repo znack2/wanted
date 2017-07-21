@@ -4,6 +4,8 @@ import seeder                          from '../database/seeders/seederDefault'
 import db                              from '../../data/config/db'
 import app                             from '../../data/config/app'
 import seedData                        from '../../data/seed/seedData'
+// import userRepository       from '../database/repositories/userRepository'
+
 
 const name = `db`
 const dbState = db()
@@ -11,7 +13,7 @@ const appState = app()
 
 export const types = {
   SEED_SAGA: `${ name }/SEED_SAGA`,
-  INIT_SAGA: `${ name }/INIT_SAGA`,
+  CONNECT_SAGA: `${ name }/CONNECT_SAGA`,
   MIGRATE_SAGA: `${ name }/MIGRATE_SAGA`,
 }
 
@@ -64,16 +66,25 @@ function* processMigrate() {
   }
 }
 
-function* processInit() {
+function* processConnect() {
   try {
 
-    console.log('*******helllo********')
+    //get repo name and params
+    //connect database init
+    //connect database
+
+
+
+    // rest - do logic with response/response ( routes/controllers/middleware/transformers )
+    // db - work with db ( models/seed/migrations/repositories/connection )
 
     const state = yield select()
     const configDB = state.dbState
     const configApp = state.appState
 
-    const dbInit = yield database.init({ configDB })
+    // const dbInit = yield database.init({ configDB })
+    // const data = yield repository.init({ dbInit })
+    // const result = yield controller.response({ data })
 
     // yield put({ type: types.SEED_SUCCESS, payload: result })
   } catch (error) {
@@ -82,9 +93,8 @@ function* processInit() {
 }
 
 
-function* sagaInit() {
-  console.info('******* 0 ********')
-  yield takeEvery(types.INIT_SAGA, processInit)
+function* sagaConnect() {
+  yield takeEvery(types.CONNECT_SAGA, processConnect)
 }
 function* sagaSeed() {
   yield takeEvery(types.SEED_SAGA, processSeed)
@@ -95,7 +105,7 @@ function* sagaMigrate() {
 }
 
 const sagaList = [
-  sagaInit(),
+  sagaConnect(),
   sagaSeed(),
   sagaMigrate(),
 ]

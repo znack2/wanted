@@ -55,15 +55,21 @@ const app = express()
 
 function init({ config }) {
 
+
     initExpress(config)
 
-    initAuth(routes,config)
 
-    routes.initRoutes(app, passport)
+    initAuth(config)
+
+
+    routes.initRoutes(app,passport)
+
 
     createLog()
 
+
     initErrorHandling(app,config)
+
 
   // We need this to make sure we don't run a second instance
   if (!module.parent) {
@@ -103,7 +109,7 @@ function initExpress(config) {
 /*
 * PRIVATE function
 */
-function initAuth(routes,config) {
+function initAuth(config) {
     app.use(flash())
     routes.initPassport(passport,config)
     app.use(passport.initialize())
@@ -125,7 +131,7 @@ function initSession(config) {
 /*
  * PRIVATE function
  */
-function initErrorHandling(app,config) {
+function initErrorHandling(config) {
     //log unhandled errors
     app.use(function (err, req, res, next) {
 

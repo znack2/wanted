@@ -1,5 +1,5 @@
 import { takeEvery,put,select }        from 'redux-saga/effects'
-import app                          from '../../data/config/app'
+import app                             from '../../data/config/app'
 import emailService                    from '../services/emailService'
 
 const name = `email`

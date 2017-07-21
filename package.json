@@ -56,9 +56,12 @@
     "mocha": "^3.4.2",
     "react-scripts": "^1.0.10"
   },
+  "apidoc": {
+    "title": "Custom apiDoc browser title"
+  },
   "scripts": {
     "start": "node build/server.js",
-    "build": "node scripts/buildServer.js",
+    "build": "node scripts/buildServer.js && npm run doc",
     "restart": "npm run build && npm run start",
     "clean": "rimraf build/server",
     "test": "react-app-rewired test --env=jsdom",
@@ -66,6 +69,7 @@
     "test-ci": "NODE_ENV=test-travis mocha --reporter spec",
     "test-debug": "NODE_ENV=test node_modules/.bin/mocha --debug --debug-brk",
     "seed": "node build/server/tasks/syncDb",
-    "migrate": "node build/server/tasks/migrateTables"
+    "migrate": "node build/server/tasks/migrateTables",
+    "doc": "apidoc -i ./build -o ./docs"
   }
 }

@@ -3,34 +3,15 @@ import Promise              from 'bluebird'
 import bcrypt               from 'bcrypt-nodejs'
 import crypto               from 'crypto'
 
-import database             from '../database'
-import AppError             from '../../helpers/appError'
-import initDb               from '../../tasks/initDb'
+// import database             from '../database'
+// import AppError             from '../../helpers/appError'
 // import { userModel }         from '../models'
 
-// database.init(config)
-const db = initDb()
-let userModel = db.models.User
-
-
-//in controller connect saga task - initDB
-//start saga - INIT_DB
-//process saga
-// - connect to module DB
-// - get response from module DB
-// - send to the controller a model
-//in controller works with data
-
-
-// rest - do logic with response/response ( routes/controllers/middleware/transformers )
-// db - work with db ( models/seed/migrations/repositories/connection )
-//
-//
-
+let userModel = init(db)
 
 
 function init(db) {
-  userModel = db.models.User
+  return db.models.User
 }
 /*
 *  GET
@@ -41,6 +22,16 @@ function getUsers() {
 
 function getById(id) {
     return userModel.findById(id)
+}
+
+function deserializeUser(id,done) {
+    return getById(id)
+      .then((user) => {
+        done(null, user)
+      })
+      .catch((err) => {
+        done(err, null)
+      })
 }
 
 function getLocalUserByEmail(email) {

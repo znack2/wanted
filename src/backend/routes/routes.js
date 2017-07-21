@@ -6,10 +6,10 @@ import helperInit           from '../helpers/routesHelper'
 // TODO: WHY USE IT?
 // let helper = helperInit(null, null)
 
-function initRoutes(helper, passport) {
+function initRoutes(app,passport) {
 
     //get routes
-    helper = helperInit(helper, passport)
+    const helper = helperInit(app,passport)
 
     // auth routes
     initAuthRoutes(passport)
@@ -41,7 +41,9 @@ function initApiRoutes(helper) {
     // helper.get('/chat', checkAuth, require('./chat').get)
     // routes.get('/',authJwt,UserController.getList)
 
-    helper.get('/api/test1', homeController.test1)
+    helper.get('/api/test_get', homeController.test_get)
+    helper.get('/api/test_post', homeController.test_post)
+    helper.get('/api/test_put', homeController.test_put)
 
     //home page
     // helper.get('/', homeController.home, {view: true})
