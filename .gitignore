@@ -61,7 +61,6 @@ typings/
 .idea
 
 # config folder
-config/
 
 # build server
 build/
