@@ -17,7 +17,7 @@ import chalk              from 'chalk'
  */
 import pathHelper             from './helpers/pathHelper'
 import createLog              from './tasks/createLog'
-import routes                 from './routes/routes'
+import routes                 from './routes/sberRoutes'
 import passport               from './middlewares/passport'
 // import grahql                 from './middlewares/graphql'
 import session                from './middlewares/session'

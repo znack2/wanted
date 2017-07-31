@@ -1,30 +1,19 @@
 import homeController       from '../controllers/homeController'
-import authController       from '../controllers/authController'
 import helperInit           from '../helpers/routesHelper'
 
-// TODO: WHY USE IT?
-// let helper = helperInit(null, null)
-
 function initRoutes(app,passport) {
-  //get routes
+
   const helper = helperInit(app,passport)
 
-  helper.get('/api/test_get', homeController.test_get)
-  helper.get('/api/test_post', homeController.test_post)
-  helper.get('/api/test_put', homeController.test_put)
-
   // auth routes
-  initAuthRoutes(passport)
-
+  initAuthRoutes(helper)
   //get api routes
-  initProjectRoutes(helper)
   initProjectRoutes(helper)
   initProjectsIdeasRoutes(helper)
   initProjectsQuestionsRoutes(helper)
   initNotificationRoutes(helper)
   initCommunitiesRoutes(helper)
   initSurveysRoutes(helper)
-
   //all other routes are rendered as home (for client side routing)
   // helper.get('*', homeController.home, {view: true})
 }
@@ -32,126 +21,127 @@ function initRoutes(app,passport) {
 /**
  * Auth Routes
  */
-function initAuthRoutes(passport) {
-  // POST      attachments
-  // POST      sign_in
-  // GET       dictionaries
-  // GET       dictionaries/:id
-  // GET       dictionaries/:id/items
-  // GET       registration_types
-  // POST      sign_up
-  // GET       sign_up/rules_and_license
-  // POST      recover_password
-  // POST      confirmation_request
-  // GET       profile_fields
-  // GET       profile
-  // GET       profiles/:id
-  // POST      profiles/:user_id/thanks
-  // GET       activity
-  // GET       communities/:id/activity
-  // GET       projects/:id/activity
-  // GET       hall_of_fame
-  // GET       hall_of_fame/badges
-  // GET       hall_of_fame/nominations
-  // GET       dashboard
-  // POST      projects/:id/access
+function initAuthRoutes(helper) {
+  helper.post('/api/attachments', homeController.test_get)
+  helper.post('/api/sign_in', homeController.test_get)
+  helper.get('/api/dictionaries', homeController.test_get)
+  helper.get('/api/dictionaries/:id', homeController.test_get)
+  helper.get('/api/dictionaries/:id/items', homeController.test_get)
+  helper.get('/api/registration_types', homeController.test_get)
+  helper.post('/api/sign_up', homeController.test_get)
+  helper.get('/api/rules_and_license', homeController.test_get)
+  helper.post('/api/recover_password', homeController.test_get)
+  helper.post('/api/confirmation_request', homeController.test_get)
+  helper.get('/api/profile_fields', homeController.test_get)
+  helper.get('/api/profile', homeController.test_get)
+  helper.get('/api/profile/:id', homeController.test_get)
+  helper.post('/api/profile/:user_id/thanks', homeController.test_get)
+  helper.get('/api/activity', homeController.test_get)
+  helper.get('/api/communities/:id/activity', homeController.test_get)
+  helper.get('/api/projects/:id/activity', homeController.test_get)
+  helper.get('/api/hall_of_fame', homeController.test_get)
+  helper.get('/api/hall_of_fame_badges', homeController.test_get)
+  helper.get('/api/hall_of_fame_nominations', homeController.test_get)
+  helper.get('/api/dashboard', homeController.test_get)
+  helper.post('/api/projects/:id/access', homeController.test_get)
 }
 /**
  * Api Routes
  */
 
 function initProjectRoutes(helper) {
-  // GET       projects
-  // GET       projects/:project_id
-  // POST      projects/:project_id/access
-  // GET       projects/:project_id/news
-  // GET       projects/:project_id/news/:id/comments
-  // POST      projects/:project_id/news/:id/like
-  // DELETE    projects/:project_id/news/:news_id/like
-  // POST      projects/:project_id/news/:id/comments
-  // GET       projects/:project_id/statistics/user_ratings
+  helper.get('/api/projects', homeController.test_get)
+  helper.get('/api/projects/:project_id', homeController.test_get)
+  helper.post('/api/projects/:project_id/access', homeController.test_get)
+  helper.get('/api/projects/:project_id/news', homeController.test_get)
+  helper.get('/api/projects/:project_id/news/:id/comments', homeController.test_get)
+  helper.post('/api/projects/:project_id/news/:id/like', homeController.test_get)
+  helper.post('/api/projects/:project_id/news/:news_id/like', homeController.test_get)
+  helper.post('/api/projects/:project_id/news/:id/comments', homeController.test_get)
+  helper.get('/api/projects/:project_id/statistics/user_ratings', homeController.test_get)
 
-  // GET       projects/:project_id/profile
-  // GET       projects/:project_id/profile/ideas
-  // GET       projects/:project_id/profile/questions
-  // GET       projects/:project_id/profile/comments
-  // GET       projects/:project_id/profiles/:user_id
-  // GET       projects/:project_id/profiles/:user_id/ideas
-  // GET       projects/:project_id/profiles/:id/questions
-  // GET       projects/:project_id/profiles/:user_id/comments
+  helper.get('/api/projects/:project_id/profile', homeController.test_get)
+  helper.get('/api/projects/:project_id/profile/ideas', homeController.test_get)
+  helper.get('/api/projects/:project_id/profile/questions', homeController.test_get)
+  helper.get('/api/projects/:project_id/profile/comments', homeController.test_get)
+  helper.get('/api/projects/:project_id/profiles/:user_id', homeController.test_get)
+  helper.get('/api/projects/:project_id/profiles/:user_id/ideas', homeController.test_get)
+  helper.get('/api/projects/:project_id/profiles/:id/questions', homeController.test_get)
+  helper.get('/api/projects/:project_id/profiles/:user_id/comments', homeController.test_get)
 }
 function initProjectsIdeasRoutes(helper) {
-  // GET       projects/:project_id/ideas
-  // POST      projects/:project_id/ideas
-  // PUT       projects/:project_id/ideas/:idea_id
-  // DELETE    projects/:project_id/ideas/:idea_id
-  // GET       projects/:project_id/ideas/:idea_id/expert_reports
-  // POST      projects/:project_id/ideas/:idea_id/change_status
-  // POST      projects/:project_id/ideas/:idea_id/like
-  // POST      projects/:project_id/ideas/:idea_id/like
-  // POST      projects/:project_id/ideas/:idea_id/resource_vote
-  // POST      projects/:id/similar_ideas
-  // GET       projects/:project_id/ideas/:idea_id/comments
-  // POST      projects/:project_id/ideas/:idea_id/comments
-  // PUT       projects/:project_id/ideas/:idea_id/comments/:commen
-  // PUT       projects/:project_id/ideas/:idea_id/:comment_id/like
-  // DELETE    projects/:project_id/ideas/:idea_id/comments/:commen
-  // DELETE    projects/:project_id/ideas/:idea_id/comments/:commen
+  helper.get('/api/projects/:project_id/ideas', homeController.test_get)
+  helper.post('/api/projects/:project_id/ideas', homeController.test_get)
+  helper.put('/api/projects/:project_id/ideas/:idea_id', homeController.test_get)
+  helper.delete('/api/projects/:project_id/ideas/:idea_id', homeController.test_get)
+  helper.get('/api/projects/:project_id/ideas/:idea_id/expert_reports', homeController.test_get)
+  helper.post('/api/projects/:project_id/ideas/:idea_id/change_status', homeController.test_get)
+  helper.post('/api/projects/:project_id/ideas/:idea_id/like', homeController.test_get)
+  helper.post('/api/projects/:project_id/ideas/:idea_id/like', homeController.test_get)
+  helper.post('/api/projects/:project_id/ideas/:idea_id/resource_vote', homeController.test_get)
+  helper.post('/api/projects/:id/similar_ideas', homeController.test_get)
+  helper.get('/api/projects/:project_id/ideas/:idea_id/comments', homeController.test_get)
+  helper.post('/api/projects/:project_id/ideas/:idea_id/comments', homeController.test_get)
+  helper.put('/api/projects/:project_id/ideas/:idea_id/comments/:comment_id', homeController.test_get)
+  helper.put('/api/projects/:project_id/ideas/:idea_id/:comment_id/like', homeController.test_get)
+  helper.delete('/api/projects/:project_id/ideas/:idea_id/comments/:comment_id', homeController.test_get)
+  helper.delete('/api/projects/:project_id/ideas/:idea_id/comments/:comment_id', homeController.test_get)
 }
 function initProjectsQuestionsRoutes(helper) {
-  // GET       projects/:project_id/questions
-  // POST      projects/:project_id/questions
-  // POST      projects/:project_id/similar_questions
-  // PUT       projects/:project_id/questions/:question_id
-  // DELETE    projects/:project_id/questions/:question_id
-  // POST      projects/:project_id/questions/:question_id/subscribe
-  // POST      projects/:project_id/questions/:question_id/unsubscribe
-  // GET       projects/:project_id/questions/:question_id/answers
-  // POST      projects/:project_id/questions/:question_id/answers
-  // PUT       projects/:project_id/questions/:question_id/answers/
-  // DELETE    projects/:project_id/questions/:question_id/answers/
-  // POST      projects/:project_id/questions/:question_id/answers/
-  // GET       projects/:project_id/questions/:question_id/answers/
-  // POST      projects/:project_id/questions/:question_id/answers/
-  // PUT       projects/:project_id/questions/:question_id/answers/
-  // POST      projects/:project_id/questions/:question_id/answers/
-  // DELETE    projects/:project_id/questions/:question_id/answers/
-  // DELETE    projects/:project_id/questions/:question_id/answers/
+  helper.get('/api/projects/:project_id/questions', homeController.test_get)
+  helper.post('/api/projects/:project_id/questions', homeController.test_get)
+  helper.post('/api/projects/:project_id/similar_questions', homeController.test_get)
+  helper.put('/api/projects/:project_id/questions/:question_id', homeController.test_get)
+  helper.delete('/api/projects/:project_id/questions/:question_id', homeController.test_get)
+  helper.post('/api/projects/:project_id/questions/:question_id/subscribe', homeController.test_get)
+  helper.post('/api/projects/:project_id/questions/:question_id/unsubscribe', homeController.test_get)
+  helper.get('/api/projects/:project_id/questions/:question_id/answers', homeController.test_get)
+  helper.post('/api/projects/:project_id/questions/:question_id/answers', homeController.test_get)
+  helper.put('/api/projects/:project_id/questions/:question_id/answers/', homeController.test_get)
+  helper.delete('/api/projects/:project_id/questions/:question_id/answers/', homeController.test_get)
+  helper.post('/api/projects/:project_id/questions/:question_id/answers/', homeController.test_get)
+  helper.get('/api/projects/:project_id/questions/:question_id/answers/', homeController.test_get)
+  helper.post('/api/projects/:project_id/questions/:question_id/answers/', homeController.test_get)
+  helper.put('/api/projects/:project_id/questions/:question_id/answers/', homeController.test_get)
+  helper.post('/api/projects/:project_id/questions/:question_id/answers/', homeController.test_get)
+  helper.delete('/api/projects/:project_id/questions/:question_id/answers/', homeController.test_get)
+  helper.delete('/api/projects/:project_id/questions/:question_id/answers/', homeController.test_get)
 }
 function initSurveysRoutes(helper) {
-  // GET       news
-  // GET       surveys
-  // GET       surveys/:id
-  // POST      surveys/:id
+  helper.get('/api/news', homeController.test_get)
+  helper.get('/api/surveys', homeController.test_get)
+  helper.get('/api/surveys/:id', homeController.test_get)
+  helper.post('/api/surveys/:id', homeController.test_get)
 }
 function initNotificationRoutes(helper) {
-  // GET       notifications
-  // POST      notifications/:id/mark_as_read
-  // POST      notifications/:id/mark_as_unread
-  // POST      notifications/mark_all_as_read
-  // GET       notifications/settings
-  // PUT       notifications/settings
-  helper.get('/send/basic', function (req, res) {
-    var token = req.query.token
-    console.log('token = ' + token)
-    sendPush(token, res)
-  })
+  helper.get('/api/notifications', homeController.test_get)
+  helper.post('/api/notifications/:id/mark_as_read', homeController.test_get)
+  helper.post('/api/notifications/:id/mark_as_unread', homeController.test_get)
+  helper.post('/api/notifications/mark_all_as_read', homeController.test_get)
+  helper.get('/api/notifications/settings', homeController.test_get)
+  helper.put('/api/notifications/settings', homeController.test_get)
 
-  helper.post('/users/:user_id/set_token', requireJwt, TodosController.checkValidUser, TodosController.setToken]);
-  helper.get('/users/:user_id/send_notification', TodosController.sendNotification]);
+  // helper.get('/send/basic', function (req, res) {
+  //   var token = req.query.token
+  //   console.log('token = ' + token)
+  //   sendPush(token, res)
+  // })
+  //
+  // helper.post('/users/:user_id/set_token', requireJwt, TodosController.checkValidUser, TodosController.setToken]);
+  // helper.get('/users/:user_id/send_notification', TodosController.sendNotification]);
 }
 function initCommunitiesRoutes(helper) {
-  // GET       communities
-  // GET       communities/:id
-  // GET       communities/:id/projects
-  // GET       communities/:id/news
-  // GET       communities/:community_id/news/:news_id/comments
-  // POST      communities/:community_id/news/:news_id/like
-  // DELETE    communities/:community_id/news/:news_id/like
-  // POST      communities/:community_id/news/:news_id/comments
-  // GET       community/:id/surveys
-  // GET       communities/:id/surveys/:id
-  // POST      communities/:id/surveys/:id
+  helper.get('/api/communities', homeController.test_get)
+  helper.get('/api/communities/:id', homeController.test_get)
+  helper.get('/api/communities/:id/projects', homeController.test_get)
+  helper.get('/api/communities/:id/news', homeController.test_get)
+  helper.get('/api/communities/:community_id/news/:news_id/comments', homeController.test_get)
+  helper.post('/api/communities/:community_id/news/:news_id/like', homeController.test_get)
+  helper.delete('/api/communities/:community_id/news/:news_id/like', homeController.test_get)
+  helper.post('/api/communities/:community_id/news/:news_id/comments', homeController.test_get)
+  helper.get('/api/community/:id/surveys', homeController.test_get)
+  helper.get('/api/communities/:id/surveys/:id', homeController.test_get)
+  helper.post('/api/communities/:id/surveys/:id', homeController.test_get)
 }
 
 export default {
