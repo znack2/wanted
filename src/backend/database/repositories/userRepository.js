@@ -32,6 +32,10 @@ function deserializeUser(id,done) {
       .catch((err) => {
         done(err, null)
       })
+
+    // User.findOne({_id: obj._id}, function (err, user) {
+    //   done(err, user);
+    // })
 }
 
 function getLocalUserByEmail(email) {

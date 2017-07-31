@@ -9,7 +9,6 @@ var pgSession = require('connect-pg-simple')(session);
 // var Promise = require('bluebird');
 //var MySQLStore = require('connect-mysql')({ session: session });
 // var flash = require('express-flash');
-var passport = require('passport');
 var expressValidator = require('express-validator');
 // var connectAssets = require('connect-assets');
 const session = require('express-session');

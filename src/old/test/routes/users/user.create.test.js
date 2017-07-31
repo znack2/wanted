@@ -1,4 +1,4 @@
-import { expect } from 'chai';
+
 
 import server from '../../../__mocks__/utils/server.mock';
 import User from '../../../src/models/user.model';

@@ -1,8 +1,6 @@
 //TODO: test services
 
-var should = require('should');
-var assert = require('assert');
-var request = require('supertest');
+
 var dbutils = require('../lib/dbutils.js');
 var newsFlash6id;
 

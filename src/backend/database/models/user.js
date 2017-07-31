@@ -29,6 +29,7 @@ export function init(sequelize, DataTypes) {
             type: DataTypes.BOOLEAN,
             defaultValue: false,
         },
+
         // createdAt: {
         //   type: DataTypes.DATE,
         //   allowNull: false

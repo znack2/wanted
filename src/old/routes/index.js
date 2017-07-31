@@ -1,7 +1,6 @@
-var express = require('express'),
   jwt     = require('express-jwt'),
   quoter  = require('./quoter');
-import { authLocal }                 from '../services/auth';
+import ç{ authLocal }                 from '../services/auth';
 import { authJwt }                   from '../services/auth';
 
 // # seed
@@ -288,31 +287,3 @@ mongoose.connection.on('error', (err) => {
   console.log('%s MongoDB connection error. Please make sure MongoDB is running.', chalk.red('✗'));
   process.exit();
 });
-
-//MySQL Store
-
-app.use(session({
-  resave: true,
-  saveUninitialized: true,
-  secret: secrets.sessionSecret,
-  store: new MySQLStore({
-    config: secrets.mysql,
-    table: secrets.mysql.sessionTable
-  })
-}));
-
-//PostgreSQL Store
-app.use(session({
-  store: new pgSession({
-    conString: secrets.postgres,
-    tableName: secrets.sessionTable
-  }),
-  secret: secrets.sessionSecret,
-  saveUninitialized: true,
-  resave: false,
-  cookie: {
-    maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
-    httpOnly: true
-    //, secure: true // only when on HTTPS
-  }
-}));

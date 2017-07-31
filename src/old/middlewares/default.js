@@ -1,15 +1,6 @@
 
 //TODO: express middlewares
 
-// app.use('/', routes);
-// app.use('/users', users);
-// app.use((req, res, next) => {
-//   res.render('maintenance.hbs');
-// });
-
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
-
 app.use((req, res, next) => {
   var now = new Date().toString();
   var log = `${now}: ${req.method} ${req.url}`;
@@ -18,42 +9,18 @@ app.use((req, res, next) => {
   fs.appendFile('server.log', log + '\n');
   next();
 });
-
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.logger('dev'));
 app.use(express.favicon(path.join(__dirname, 'public/favicon.ico')));
-app.use(express.bodyParser());
 app.use(express.methodOverride());
 app.use(express.cookieParser(cfg.sessionSecret));
-app.use(express.session({
-    secret: cfg.sessionSecret,
-    store: sessionStore
-}));
-app.use(passport.initialize());
-app.use(passport.session());
-
 app.use(expressStatusMonitor());
-app.use(compression());
 app.use(sass({
   src: path.join(__dirname, 'public'),
   dest: path.join(__dirname, 'public')
 }));
 app.use(logger('dev'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
 app.use(expressValidator());
-app.use(session({
-  resave: true,
-  saveUninitialized: true,
-  secret: process.env.SESSION_SECRET,
-  store: new MongoStore({
-    url: process.env.MONGODB_URI || process.env.MONGOLAB_URI,
-    autoReconnect: true,
-    clear_interval: 3600
-  })
-}));
-app.use(passport.initialize());
-app.use(passport.session());
 app.use(flash());
 app.use((req, res, next) => {
   if (req.path === '/api/upload') {
@@ -97,11 +64,7 @@ app.use(function(req, res) {
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
-app.use(router);
 router.use(logger('dev'));
-router.use(bodyParser.json());
-router.use(bodyParser.urlencoded({ extended: false }));
-router.use(cookieParser());
 
 
 

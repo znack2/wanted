@@ -1,4 +1,4 @@
-import Promise            from 'bluebird';
+import Promise            from 'bluebird'
 
 //stubData
 export default (payload, option = 500) => {
@@ -8,7 +8,7 @@ export default (payload, option = 500) => {
 
   return Promise.delay(delay)
     .then(() => {
-      return data;
-    });
+      return data
+    })
 }
 

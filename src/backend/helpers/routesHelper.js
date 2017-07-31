@@ -3,7 +3,8 @@ import { isUndefined }                   from 'lodash'
 
 let app           = null
 let passport      = null
-
+// const config = 
+  
 function init(expressApp, passportAuth) {
   app = expressApp
   passport = passportAuth
@@ -77,15 +78,21 @@ function getAccessCheck(accessMode) {
 }
 
 function isLoggedIn(req, res, next) {
+    return next()
     // if (!config.auth.useAuth) return next()
 
     if (req.isAuthenticated()) return next()
 
     res.send(401, 'Unauthorized')
+
+  //var 2
+  // if (req.session.user) return next()
+  //return next(new HttpError(401, "Вы не авторизованы"))
 }
 
 function isLoggedInView(req, res, next) {
     // if (!config.auth.useAuth) return next()
+    return next()
 
     if (req.isAuthenticated()) return next()
 

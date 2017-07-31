@@ -1,4 +1,3 @@
-import { expect } from 'chai';
 
 import User from '../../../src/models/user.model';
 import Post from '../../../src/models/post.model';

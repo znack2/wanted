@@ -24,7 +24,7 @@ function init(passport) {
 
   passport.use('local-signup', new LocalStrategy(strategySettings, signUpPostLocal))
   passport.use('local-login', new LocalStrategy(strategySettings, logInPostLocal))
-
+  
   return {
     logIn: logIn,
     logInPost: passport.authenticate('local-login', {

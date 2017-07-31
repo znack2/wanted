@@ -37,7 +37,7 @@ import helper                   from '../helpers/controllerHelper'
  * @apiVersion 0.1.0
  * @apiName GetUser
  * @apiGroup User
- * @apiPermission admin
+ * @apiPermission none
  *
  * @apiDescription Compare Verison 0.3.0 with 0.2.0 and you will see the green markers with new items in version 0.3.0 and red markers with removed items since 0.2.0.
  *

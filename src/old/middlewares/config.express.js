@@ -4,28 +4,14 @@
 app.set('port', process.env.PORT || 3000);
 
 app.use(expressStatusMonitor());
-app.use(compression());
 app.use(sass({
   src: path.join(__dirname, 'public'),
   dest: path.join(__dirname, 'public')
 }));
 app.use(logger('dev'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
 app.use(expressValidator());
-app.use(session({
-  resave: true,
-  saveUninitialized: true,
-  secret: process.env.SESSION_SECRET,
-  store: new MongoStore({
-    url: process.env.MONGODB_URI || process.env.MONGOLAB_URI,
-    autoReconnect: true,
-    clear_interval: 3600
-  })
-}));
 
-app.use(passport.initialize());
-app.use(passport.session());
+
 app.use(flash());
 app.use((req, res, next) => {
   if (req.path === '/api/upload') {
@@ -58,15 +44,8 @@ app.use(express.static(path.join(__dirname, 'public'), { maxAge: 31557600000 }))
 
 
 
-
-
-
 // Parsers
 app.use(logger('dev'));
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
-app.use(cookieParser());
-app.use(cors());
 app.use(express.static(path.join(__dirname, 'public')));
 // app.use(express.static(__dirname + '/public'))
 
@@ -85,15 +64,12 @@ app.use(logger('dev'));
 app.use(multer({ dest: path.join(__dirname, 'uploads') }).single());
 app.use(expressValidator());
 app.use(methodOverride());
-app.use(cookieParser());
 
 Promise.longStackTraces();
 
 
 
 
-app.use(passport.initialize());
-app.use(passport.session());
 app.use(flash());
 app.use(lusca({
   csrf: { angular: true },
@@ -113,3 +89,19 @@ app.use(function(req, res, next) {
   res.cookie('XSRF-TOKEN', res.locals._csrf, {httpOnly: false});
   next();
 });
+
+//loadUser
+// import { User } from 'models'
+//
+// module.exports = function(req, res, next) {
+//   req.user = res.locals.user = null;
+//
+//   if (!req.session.user) return next();
+//
+//   User.findById(req.session.user, function(err, user) {
+//     if (err) return next(err);
+//
+//     req.user = res.locals.user = user;
+//     next();
+//   });
+// };

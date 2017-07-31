@@ -1,9 +1,10 @@
-import pathHelper           from './pathHelper'
 import { get }              from 'lodash'
 import template             from 'es6-template-strings'
 import fs                   from 'fs'
-import filename             from '../../data/text/messages'
 
+
+import filename             from '../../data/text/messages'
+import pathHelper           from './pathHelper'
 
 
 
