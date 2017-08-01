@@ -21,7 +21,10 @@ export default (payload = {}) => {
     key:  path.join(__dirname, 'key.pem'),          // Key file path
     ca: path.join(__dirname, 'aps_development.cer'),// String or Buffer of CA data to use for the TLS connection
 
-
+    key: fs.readFileSync("my-api.key", "utf8"),
+    cert: fs.readFileSync("my-api.cert", "utf8")
+    
+    
     passphrase: '<PASSWORD>',                             // A passphrase for the Key file
     production:false,
     "passphrase": null,

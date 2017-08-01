@@ -66,8 +66,8 @@ import helper                   from '../helpers/controllerHelper'
  *       "error": "NoAccessRight"
  *     }
  */
+
 function test_get(req, res) {
-  console.log('*****000*****')
   // return res.sendData({}, res)
   // res.status(200).send('privet')
   return helper.sendData({data: 'hello'}, res)

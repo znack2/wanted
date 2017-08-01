@@ -21,9 +21,9 @@ function initRoutes(app,passport) {
     //all other routes are rendered as home (for client side routing)
     // helper.get('*', homeController.home, {view: true})
 }
-
 /**
  * Test Routes
+ * =============================================================================
  */
 function initTestRoutes(helper) {
     helper.get('/api/test_get', homeController.test_get)
@@ -31,15 +31,8 @@ function initTestRoutes(helper) {
     helper.get('/api/test_put', homeController.test_put)
 }
 /**
- * GraphQL Routes
- */
-// function initGraphQLRoutes(helper) {
-//   helper.use('/graphiql', graphiqlExpress({
-//     endpointURL: '/graphql',
-//   }));
-// }
-/**
  * Api Routes
+ * =============================================================================
  */
 function initApiRoutes(helper) {
     // helper.get('/api/enrollment/list', enrollmentController.getEnrollmentsByCourse, {view: true})
@@ -52,9 +45,9 @@ function initApiRoutes(helper) {
     // helper.post('/users/:user_id/set_token', requireJwt, TodosController.checkValidUser, TodosController.setToken]);
     // helper.get('/users/:user_id/send_notification', TodosController.sendNotification]);
 }
-
 /**
  * Auth Routes
+ * =============================================================================
  */
 function initAuthRoutes(passport) {
     // let authController = authControllerInit(passport)

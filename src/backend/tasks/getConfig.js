@@ -1,6 +1,14 @@
-// import store                from '../redux/store'
-// import { types }            from '../redux/config'
+import store                from '../redux/store'
+import { types }            from '../redux/config'
 
-// store.dispatch({ type: types.CONFIG_SAGA })
+export default (payload, options) => {
+  // const { error } = payload
+  // const { isProxy } = options
+  store.dispatch({ type: types.CONFIG_SAGA, payload })
+}
+
+
+
+
 
 

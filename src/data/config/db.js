@@ -41,3 +41,7 @@ export default (payload = {}) => {
   }
 }
 
+
+// import config    from __dirname + '../../../data/db.json')[env]
+// const basename  = path.basename(module.filename)
+// const env       = process.env.NODE_ENV || 'development'

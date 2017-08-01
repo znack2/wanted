@@ -1,8 +1,11 @@
 /**
  * Server setup
+ * =============================================================================
  */
+
 /**
  * Module dependencies.
+ * =============================================================================
  */
 import express            from 'express'
 import morgan             from 'morgan'
@@ -11,19 +14,21 @@ import compression        from 'compression'
 import { isError }        from 'lodash'
 import chalk              from 'chalk'
 
-
 /**
  * Helpers dependencies.
+ * =============================================================================
  */
-import pathHelper             from './helpers/pathHelper'
 import createLog              from './tasks/createLog'
 import routes                 from './routes/sberRoutes'
-import passport               from './middlewares/passport'
-// import grahql                 from './middlewares/graphql'
+import auth                   from './middlewares/auth'
+import graphQl                from './middlewares/graphQl'
 import session                from './middlewares/session'
+import docs                   from './middlewares/docs'
+import error                   from './middlewares/error'
 
 /*
  *  START SERVER
+ *  =============================================================================
  */
 function init({ config }) {
     /**
@@ -31,12 +36,9 @@ function init({ config }) {
      */
     const app = express()
     initExpress(app,config)
-    // grahql.initGraphQL(app,config)
-    passport.initAuth(app,config)
-    session.initSession(app,config)
+    const passport = initMiddlewares(app,config)
     routes.initRoutes(app,passport)
     createLog()
-    initErrorHandling(app,config)
 
     // We need this to make sure we don't run a second instance
     if (!module.parent) {
@@ -49,7 +51,8 @@ function init({ config }) {
                 `
               Yep this is working 🍺
               App listen on port: ${ config.web.port } 🍕
-              Env: ${process.env.NODE_ENV} 🦄
+              Env: ${process.env.NODE_ENV}
+              Press CTRL-C to stop\n🦄
                 `,
               ),
             )
@@ -58,37 +61,38 @@ function init({ config }) {
     }
 }
 
+
+// server.listen(PORT, () => {
+//   console.log(`==> 🌎  http://0.0.0.0:${ PORT }/`)
+//   resolve()
+// })
+
+// app.listen(app.get('port'), () => {
+//   console.log('%s App is running at http://localhost:%d in %s mode', chalk.green('✓'), app.get('port'), app.get('env'));
+// });
+
 /*
  * Setup express
+ * =============================================================================
  */
 function initExpress(app,config) {
     if (config.app.isDevLocal) app.use(morgan('dev')) //log requests
     app.use(bodyParser.urlencoded({extended: true}))
     app.use(bodyParser.json()) // get information from html forms
-    app.use(express.static(pathHelper.getRelative('build/client')))
     app.use(compression())
 }
 
 /*
- * PRIVATE function
+ * Setup Middlewares
+ * =============================================================================
  */
-function initErrorHandling(app,config) {
-    //log unhandled errors
-    app.use(function (err, req, res, next) {
-
-        createLog({ err })
-        //logger.error(err)
-        console.log({ err })
-
-        let message = isError(err) ? err.message : err
-        message = config.app.isDevLocal ? message : 'Server Error'
-
-        res.status(500).send({error: message})
-    })
-    process.on('uncaughtException', function (err) {
-        createLog({ err })
-        //logger.error(err)
-    })
+function initMiddlewares(app,config) {
+    graphQl.initGraphQL(app,config)
+    session.initSession(app,config)
+    docs.init(app,config)
+    error.initErrorHandling(app,config)
+    const passport = auth.initAuth(app,config)
+    return passport
 }
 
 export default {

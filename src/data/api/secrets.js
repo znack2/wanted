@@ -6,7 +6,6 @@ export default (payload = {}) => {
 
   return {
     "auth": {
-      "useAuth": true,
       "google": {
         "clientID": "???",
         "clientSecret": "???"

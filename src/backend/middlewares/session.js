@@ -1,5 +1,6 @@
 import session            from 'cookie-session'
 import cookieParser       from 'cookie-parser'
+// var session = require('express-session')
 
 /*
  * PRIVATE function
@@ -9,6 +10,13 @@ function initSession(app,config) {
   app.use(session({
     secret: config.web.sessionSecret
   }))
+
+  // app.use(express.session({
+  //   secret: config.get('session:secret'),
+  //   key: config.get('session:key'),
+  //   cookie: config.get('session:cookie'),
+  //   store: sessionStore
+  // }));
 }
 
 export default {

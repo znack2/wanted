@@ -1,5 +1,6 @@
 import { takeEvery,put,select }        from 'redux-saga/effects'
-import database                        from '../database/database'
+import models                          from '../database/models'
+import getSchema                       from '../database/graphql/getSchema'
 import seeder                          from '../database/seeders/seederDefault'
 import db                              from '../../data/config/db'
 import app                             from '../../data/config/app'
@@ -15,11 +16,14 @@ export const types = {
   SEED_SAGA: `${ name }/SEED_SAGA`,
   CONNECT_SAGA: `${ name }/CONNECT_SAGA`,
   MIGRATE_SAGA: `${ name }/MIGRATE_SAGA`,
+  GRAPHQL_SAGA: `${ name }/GRAPHQL_SAGA`,
 }
 
 const defaultState = {
   dbState,
-  appState
+  appState,
+  models,
+  getSchema,
 }
 
 const reducer = (state = defaultState, action) => {
@@ -31,21 +35,10 @@ function* processSeed() {
     const state = yield select()
     const configDB = state.dbState
     const configApp = state.appState
-
-    console.log('***************')
-    console.log(configDB)
-    console.log('***************')
-    console.log(configApp)
-    console.log('***************')
-
-    const dbInit = yield database.init({ configDB })
-
-    console.log('*******1********')
-
+    const models = state.models
+    
+    const dbInit = yield database.init({ configDB,models })
     const resultSync = yield db.sequelize.sync({ force: true })
-
-    console.log('*******2********')
-
     const result = yield seeder.seedData(dbInit);
 
     // yield put({ type: types.SEED_SUCCESS, payload: result })
@@ -59,6 +52,19 @@ function* processMigrate() {
     const state = yield select()
     const configDB = state.dbState
     const configApp = state.appState
+
+    // yield put({ type: types.SEED_SUCCESS, payload: result })
+  } catch (error) {
+    // yield put({ type: types.SEED_FAILED, payload: { error } })
+  }
+}
+
+function* processGraphql() {
+  try {
+    const state = yield select()
+    const configDB = state.dbState
+    const configApp = state.appState
+    const getSchema = state.getSchema
 
     // yield put({ type: types.SEED_SUCCESS, payload: result })
   } catch (error) {
@@ -104,10 +110,15 @@ function* sagaMigrate() {
   yield takeEvery(types.MIGRATE_SAGA, processMigrate)
 }
 
+function* sagaGraphql() {
+  yield takeEvery(types.GRAPHQL_SAGA, processGraphql)
+}
+
 const sagaList = [
   sagaConnect(),
   sagaSeed(),
   sagaMigrate(),
+  sagaGraphql(),
 ]
 
 export default {
