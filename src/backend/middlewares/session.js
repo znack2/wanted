@@ -1,3 +1,8 @@
+/*
+ * Session Middleware
+ * =============================================================================
+ */
+
 import session            from 'cookie-session'
 import cookieParser       from 'cookie-parser'
 // var session = require('express-session')

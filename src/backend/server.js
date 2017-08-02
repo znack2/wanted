@@ -19,12 +19,18 @@ import chalk              from 'chalk'
  * =============================================================================
  */
 import createLog              from './tasks/createLog'
-import routes                 from './routes/sberRoutes'
-import auth                   from './middlewares/auth'
-import graphQl                from './middlewares/graphQl'
+
+import routes                 from './routes/routes'
+
 import session                from './middlewares/session'
-import docs                   from './middlewares/docs'
-import error                   from './middlewares/error'
+import error                  from './middlewares/error'
+import access                 from './middlewares/access'
+import auth                   from './middlewares/auth'
+
+// import graphQl                from './middlewares/graphQl'
+// import docs                   from './middlewares/docs'
+// import cors                   from './middlewares/cors'
+// import template               from './middlewares/template'
 
 /*
  *  START SERVER
@@ -36,8 +42,7 @@ function init({ config }) {
      */
     const app = express()
     initExpress(app,config)
-    const passport = initMiddlewares(app,config)
-    routes.initRoutes(app,passport)
+    initMiddlewares(app,config)
     createLog()
 
     // We need this to make sure we don't run a second instance
@@ -87,12 +92,13 @@ function initExpress(app,config) {
  * =============================================================================
  */
 function initMiddlewares(app,config) {
-    graphQl.initGraphQL(app,config)
+    // graphQl.initGraphQL(app,config)
+    // docs.init(app,config)
     session.initSession(app,config)
-    docs.init(app,config)
     error.initErrorHandling(app,config)
     const passport = auth.initAuth(app,config)
-    return passport
+    const router = access.init(app,passport)
+    routes.initRoutes(router,passport)
 }
 
 export default {

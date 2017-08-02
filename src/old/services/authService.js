@@ -1,10 +1,12 @@
-import { Strategy }          from 'passport-facebook'
+import { Strategy }         from 'passport-facebook'
 // import {OAuth2Strategy as Strategy} from 'passport-google-oauth'
+import createLog            from '../tasks/createLog'
+import sendEmail            from '../tasks/sendEmail'
+import sendError            from '../tasks/sendError'
+import connectDB            from '../tasks/connectDB'
 
-
-import authController        from '../controllers/authController'
-import connectDB             from '../tasks/connectDB'
-
+import authController       from '../controllers/authController'
+import textValue            from './textValueHelper'
 
 // let providerName = 'facebook'
 let providerName = 'google'
@@ -60,8 +62,88 @@ async function providerLogin(token, refreshToken, profile, done) {
   }
 }
 
+function renderView(viewName, viewModel, req, res) {
+  let statusMessage = null
+
+  let flashArray = req.flash('statusMessage')
+  if (flashArray && flashArray.length > 0) {
+    statusMessage = flashArray[0]
+  }
+
+  if (statusMessage) {
+    viewModel.statusMessage = statusMessage
+  }
+
+  return controllerHelper.renderView(viewName, viewModel, res)
+}
+
+function setStatusMessage(req, message, type) {
+  if (!type) {
+    type = 'error'
+  }
+
+  let uiClass = ''
+
+  switch (type) {
+    case 'error':
+      uiClass = 'alert-danger'
+      break
+    case 'success':
+      uiClass = 'alert-success'
+      break
+    case 'info':
+      uiClass = 'alert-info'
+      break
+    case 'warning':
+      uiClass = 'alert-warning'
+      break
+    default:
+      throw new AppError(`Not supported status message type: '${type}'`)
+  }
+
+  let statusMessage = {
+    message: message,
+    uiClass: uiClass
+  }
+
+  req.flash('statusMessage', statusMessage)
+}
+
+function redirectToLogIn(message, type, req, res) {
+  setStatusMessage(req, message, type)
+  res.redirect('/login')
+}
+
+function sendAuthErrorMessage(message, done, req) {
+  return done(null, false, setStatusMessage(req, message))
+}
+
+function sendAuthMessage(message, type, done, req) {
+  if (message) return done(null, false, setStatusMessage(req, message, type))
+
+  return done()
+}
+
+function handleError(error) {
+
+  createLog({ error })
+  sendError({ error })
+
+  let errorMessage = sendError.getErrorMessage(error)
+
+  if (!errorMessage) return 'Auth Error' //Cannot find error description
+
+  return errorMessage
+}
+
 export default {
-  initPassport
+  initPassport,
+  renderView,
+  setStatusMessage,
+  handleError,
+  redirectToLogIn,
+  sendAuthErrorMessage,
+  sendAuthMessage,
 }
 
 

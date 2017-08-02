@@ -1,5 +1,5 @@
 /*
- * Error handler function
+ * Error handler Middleware
  * =============================================================================
  */
 function initErrorHandling(app,config) {

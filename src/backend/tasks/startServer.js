@@ -1,5 +1,5 @@
 import store                from '../redux/store'
-import app                  from '../redux/app'
+import { types }            from '../redux/app'
 
 /*
 *  TODO: Learn what is this
@@ -19,7 +19,11 @@ import app                  from '../redux/app'
 /*
  *  START SERVER
  */
-// store.dispatch({ type: types.LOAD_SAGA })
 // store.dispatch({ type: types.LOAD, { PORT: 3000 } })
-store.dispatch({ type: app.types.START_SAGA })
 // store.dispatch(appStart()) // server.start({})
+
+export default (payload, options) => {
+  // const { error } = payload
+  // const { isProxy } = options
+  store.dispatch({ type: types.START_SAGA, payload })
+}

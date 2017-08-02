@@ -27,6 +27,14 @@ function sendEmail(config) {
     html: '<b>Hello world ?</b>' // html body
   };
 
+
+
+  // const mailOptions = {
+  //   from: `${req.body.name} <${req.body.email}>`,
+  //   subject: 'Contact Form | Hackathon Starter',
+  //   text: req.body.message
+  // }
+
 // send mail with defined transport object
   transporter.sendMail(mailOptions, (error, info) => {
     if (error) {

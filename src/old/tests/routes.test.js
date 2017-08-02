@@ -1,12 +1,11 @@
-import assert from 'assert'
-import request from 'supertest'
-import should from 'should'
-import { expect } from 'chai'
-
-
+import assert               from 'assert'
+import request              from 'supertest'
+import should               from 'should'
+import { expect }           from 'chai'
 
 
 // import app                  from '../../server.js'
+
 
 describe('Array', function() {
   describe('#indexOf()', function() {
@@ -15,6 +14,7 @@ describe('Array', function() {
     });
   });
 });
+
 
 describe("ClassName", function(){
   describe("MethodName", function() {
@@ -28,7 +28,7 @@ describe("ClassName", function(){
 
 
 
-// import api                  from '../..'
+
 
 
 

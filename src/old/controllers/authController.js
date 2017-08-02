@@ -2,9 +2,9 @@ import {Strategy as LocalStrategy} from 'passport-local'
 import moment               from 'moment'
 
 import textValue            from '../helpers/textValueHelper'
-import helper               from '../helpers/authHelper'
-import AppError             from '../helpers/appError'
 
+import helper               from '../tasks/authService'
+import AppError             from '../tasks/errorService'
 import sendEmail            from '../tasks/sendEmail'
 import connectDB            from '../tasks/connectDB'
 

@@ -6,7 +6,7 @@ import winston              from 'winston'
 
 
 import pathHelper           from '../helpers/pathHelper'
-import AppError             from '../helpers/appError'
+import AppError             from '../tasks/appError'
 
 
 let errorLogger = null

@@ -1,32 +1,32 @@
 // import config, {getClientConfig} from '../config'
 
 import { Response }         from 'express'
-import Joi                  from 'joi'
 
 
 import createLog            from '../tasks/createLog'
 import sendError            from '../tasks/sendError'
-import getConfig            from '../tasks/getConfig'
-import AppError             from './appError'
+// import getConfig            from '../tasks/getConfig'
 
-
+// return res.sendData({}, res)
+// res.status(200).send('privet')
+//render template -- return helper.renderView('home', {}, res)
 
 
 function sendFailureMessage(error, res) {
-    // res.send({'status': 'failure', message: errorMessage})
-    // sendError({ error }, { isProxy: false })
-    createLog({ error })
-    sendError({ error })
-    res.send({'status': 'failure', message: error})
+  // res.send({'status': 'failure', message: errorMessage})
+  // sendError({ error }, { isProxy: false })
+  createLog({ error })
+  sendError({ error })
+  res.send({'status': 'failure', message: error})
 }
 
 function sendSuccessMessage(message, res) {
-    res.send({status: 'success', 'message': message})
+  res.send({status: 'success', 'message': message})
 }
 
 function sendData(data, res) {
-    data.status = 'success'
-    res.send(data)
+  data.status = 'success'
+  res.send(data)
 }
 
 // function renderView(viewName, data, res) {

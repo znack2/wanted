@@ -98,14 +98,4 @@ post
 
 put
 
-/**
- * @api {delete} /tasks/:id Remove a task
- * @apiGroup Tasks
- * @apiParam {id} id Task id
- * @apiSuccessExample {json} Success
- *    HTTP/1.1 204 No Content
- * @apiErrorExample {json} Delete error
- *    HTTP/1.1 500 Internal Server Error
- */
 
-delete

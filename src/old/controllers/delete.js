@@ -1,10 +1,4 @@
 
-/**
- * POST /account/delete
- * Delete user account.
- */
-
-
 
 exports.delete = (req, res, next) => {
   User.remove({ _id: req.user.id }, (err) => {
@@ -52,19 +46,3 @@ export async function deletePost(req, res, next) {
   }
 }
 
-async function deleteDepartment(req, res) {
-  try {
-    let id = req.body.id;
-
-    await departmentRepository.deleteDepartment(id);
-
-    //example 2
-
-    // await officeAssignmentRepository.deleteOfficeAssignmentByInstructorId(id);
-    // await instructorRepository.deleteInstructor(id);
-
-    return helper.sendData({}, res);
-  } catch (err) {
-    helper.sendFailureMessage(err, res);
-  }
-}

@@ -1,4 +1,6 @@
-import Sequelize            from 'sequelize'
+import Sequelize                         from 'sequelize'
+import { snakeCase,forEach,keys }        from 'lodash'
+import Promise                           from 'bluebird'
 // import fs                from 'fs'
 // import path              from 'path'
 
@@ -51,10 +53,62 @@ function db(){
   // db.Sequelize = Sequelize
 }
 
+const settings = {
+  pluralTableNames: true
+}
+
+function getDbName(name) {
+  return snakeCase(name)
+}
+
+function defineForeignKey(name) {
+  return {
+    name: name,
+    field: getDbName(name)
+  }
+}
+
+function defineModel(name, fields, options, sequelize) {
+  if (!options) options = {}
+
+  if (!options.tableName) {
+    let tableName = name
+
+    if (settings.pluralTableNames) {
+      //the same way it is done in sequelize
+      tableName = sequelize.Utils.inflection.pluralize(name)
+    }
+
+    tableName = getDbName(tableName)
+
+    options.tableName = tableName
+  }
+
+  forEach(keys(fields), (fieldKey) => {
+    fields[fieldKey].field = getDbName(fieldKey)
+  })
+
+  return sequelize.define(name, fields, options)
+}
+
+//repository
+function stubData(payload, option = 500) {
+  const { data } = payload
+  const { delay } = option
+
+  return Promise.delay(delay)
+    .then(() => {
+      return data
+    })
+}
 
 export default {
   init,
   // db
+  getName: getDbName,
+  defineForeignKey,
+  defineModel,
+  stubData
 }
 
 

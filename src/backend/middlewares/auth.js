@@ -2,7 +2,7 @@ import passport           from 'passport'
 import flash              from 'connect-flash'
 // import flash              from 'express-flash'
 
-import connectAuth       from '../tasks/connectAuth'
+import connectAuth        from '../tasks/connectAuth'
 
 
 function initAuth(app,config) {
