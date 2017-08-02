@@ -1,7 +1,5 @@
 import Joi                      from 'joi'
 
-
-
 // export const validation = {
 //   create: {
 //     body: {
@@ -24,6 +22,15 @@ import Joi                      from 'joi'
 // }
 
 
+function validateUser(request,data) {
+  
+  var schema = Joi.object().keys({
+    name: Joi.string().alphanum().min(3).max(30).required(),
+    age: Joi.number().integer().min(0)
+  }).with('name', 'age');
+
+  Joi.validate({ name: 'abc', age: 103 }, schema, function (err, value) { });
+}
 
 function isValidEmail(email) {
   const re = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i
@@ -49,6 +56,7 @@ function isValidPassword(password) {
 }
 
 export default {
+  validateUser,
   isValidEmail,
   isValidPassword
 }

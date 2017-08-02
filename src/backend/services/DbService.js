@@ -102,6 +102,36 @@ function stubData(payload, option = 500) {
     })
 }
 
+
+function getData(){
+  // let enrollments = await enrollmentRepository.getEnrollmentsByCourseId(courseId);
+  // let department = await departmentRepository.getDepartmentById(id);
+  // let result = await studentRepository.getStudents(search, sortOrder, pageNumber, pageSize);
+}
+function postData(){
+
+  // let result = null
+  //
+  // let department = await helper.loadSchema(data, schema)
+  // if (department.id) {
+  //   result = await departmentRepository.updateDepartment(department)
+  // } else {
+  //   result = await departmentRepository.addDepartment(department)
+  // }
+  // await officeAssignmentRepository.saveOfficeAssignment(instructor.officeAssignment, result.id)
+  // department = await departmentRepository.getDepartmentById(result.id)
+}
+function putData(){
+  
+}
+function deleteData(){
+  // let id = req.body.id;
+
+  // await departmentRepository.deleteDepartment(id);
+  // await officeAssignmentRepository.deleteOfficeAssignmentByInstructorId(id);
+  // await instructorRepository.deleteInstructor(id);
+}
+
 export default {
   init,
   // db
@@ -121,7 +151,5 @@ export default {
 // mongoose.Promise = global.Promise
 // mongoose.connect(process.env.MONGODB_URI || process.env.MONGOLAB_URI)
 // mongoose.connection.on('error', (err) => {
-//   console.error(err)
-//   console.log('%s MongoDB connection error. Please make sure MongoDB is running.', chalk.red('✗'))
 //   process.exit()
 // })

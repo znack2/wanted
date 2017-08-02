@@ -4,6 +4,7 @@ import server                           from '../server'
 
 const name = `app`
 
+
 export const types = {
   // LOAD_SAGA: `${ name }/LOAD_SAGA`,
 

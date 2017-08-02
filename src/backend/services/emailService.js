@@ -8,7 +8,7 @@ import pathHelper           from '../helpers/pathHelper'
 
 
 function sendEmail(config) {
-  let transporter = nodemailer.createTransport({
+  const transporter = nodemailer.createTransport({
     host: 'smtp.example.com',
     port: 465,
     secure: true, // secure:true for port 465, secure:false for port 587
@@ -19,21 +19,20 @@ function sendEmail(config) {
   });
 
 // setup email data with unicode symbols
-  let mailOptions = {
+  const mailOptions = {
     from: '"Fred Foo 👻" <foo@blurdybloop.com>', // sender address
     to: 'bar@blurdybloop.com, baz@blurdybloop.com', // list of receivers
     subject: 'Hello ✔', // Subject line
     text: 'Hello world ?', // plain text body
     html: '<b>Hello world ?</b>' // html body
+    //   from: `${req.body.name} <${req.body.email}>`,
+    //   subject: 'Contact Form | Hackathon Starter',
+    //   text: req.body.message
+    //   token,
+    //   siteRootUrl: config.app.rootUrl,
+    //   to: email,
+    //   from: config.email.fromNoReply
   };
-
-
-
-  // const mailOptions = {
-  //   from: `${req.body.name} <${req.body.email}>`,
-  //   subject: 'Contact Form | Hackathon Starter',
-  //   text: req.body.message
-  // }
 
 // send mail with defined transport object
   transporter.sendMail(mailOptions, (error, info) => {
@@ -44,18 +43,7 @@ function sendEmail(config) {
   });
 }
 
-
-// const emailTransport = nodemailer.createTransport()
-
 // function sendEmail(emailOptions) {
-
-    // let data = {
-    //   token,
-    //   siteRootUrl: config.app.rootUrl,
-    //   to: email,
-    //   from: config.email.fromNoReply
-    // }
-
     // return new Promise<Object>((resolve, reject) => {
     //     emailTransport.sendMail(emailOptions, function (error, info) {
     //         if (error) return Promise.reject(error)
@@ -82,9 +70,6 @@ function sendEmail(config) {
 //         })
 // }
 
-/*
-*  private function
-*/
 // function renderTemplate(name, data) {
 //     let templateDir = pathHelper.getDataRelative('emails', name)
 //     let template = new EmailTemplate(templateDir)

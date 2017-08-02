@@ -77,22 +77,18 @@
 //   configValues.format.year = get('format.year')
 //   configValues.format.currencySymbol = get('format.currencySymbol')
 // }
-// /*
-//  * PRIVATE function
-//  */
+
 // function get(key) {
 //   return configReader.get(key)
 // }
-// /*
-//  * PRIVATE function
-//  */
+
 // function ensureConfigPath() {
 //   if (!process.env['NODE_CONFIG_DIR']) {
 //     let configPath = pathHelper.getDataRelative('config')
 //     process.env['NODE_CONFIG_DIR'] = configPath
 //   }
 // }
-//
+
 // export default {
 //   init: initConfig
 //   ...defaultConfig,

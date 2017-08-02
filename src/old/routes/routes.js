@@ -84,6 +84,71 @@ function initAuthRoutes(helper,passport) {
     // helper.get('/account/unlink/:provider', passportConf.isAuthenticated, userController.getOauthUnlink)
 }
 
+
+/**
+ * OAuth authentication routes. (Sign in)
+ */
+function initApiAuthRoutes(helper) {
+    // helper.get('/auth/google', authController.google, {auth: false, view: true})
+    // helper.get('/auth/google/callback', authController.googleCallback, {auth: false, view: true})
+    //
+    // helper.get('/auth/facebook', authController.facebook, {auth: false, view: true})
+    // helper.get('/auth/facebook/callback', authController.facebookCallback, {auth: false, view: true})
+
+    // helper.get('/auth/facebook', passport.authenticate('facebook', secrets.facebook.authOptions))
+    // helper.get('/auth/facebook/callback', passport.authenticate('facebook', { failureRedirect: '/login', failureFlash: true }), safeRedirectToReturnTo)
+    // helper.get('/auth/github', passport.authenticate('github', secrets.github.authOptions))
+    // helper.get('/auth/github/callback', passport.authenticate('github', { failureRedirect: '/login', failureFlash: true }), safeRedirectToReturnTo)
+    // helper.get('/auth/google', passport.authenticate('google', secrets.google.authOptions))
+    // helper.get('/auth/google/callback', passport.authenticate('google', { failureRedirect: '/login', failureFlash: true }), safeRedirectToReturnTo)
+    // helper.get('/auth/twitter', passport.authenticate('twitter', secrets.twitter.authOptions))
+    // helper.get('/auth/twitter/callback', passport.authenticate('twitter', { failureRedirect: '/login', failureFlash: true }), safeRedirectToReturnTo)
+    // helper.get('/auth/linkedin', passport.authenticate('linkedin', secrets.linkedin.authOptions))
+    // helper.get('/auth/linkedin/callback', passport.authenticate('linkedin', { failureRedirect: '/login', failureFlash: true }), safeRedirectToReturnTo)
+    //
+    // helper.get('/auth/instagram', passport.authenticate('instagram'))
+    // helper.get('/auth/instagram/callback', passport.authenticate('instagram', { failureRedirect: '/login' }), (req, res) => {
+    //   res.redirect(req.session.returnTo || '/')
+    // })
+    // helper.get('/auth/facebook', passport.authenticate('facebook', { scope: ['email', 'public_profile'] }))
+    // helper.get('/auth/facebook/callback', passport.authenticate('facebook', { failureRedirect: '/login' }), (req, res) => {
+    //   res.redirect(req.session.returnTo || '/')
+    // })
+    // helper.get('/auth/github', passport.authenticate('github'))
+    // helper.get('/auth/github/callback', passport.authenticate('github', { failureRedirect: '/login' }), (req, res) => {
+    //   res.redirect(req.session.returnTo || '/')
+    // })
+    // helper.get('/auth/google', passport.authenticate('google', { scope: 'profile email' }))
+    // helper.get('/auth/google/callback', passport.authenticate('google', { failureRedirect: '/login' }), (req, res) => {
+    //   res.redirect(req.session.returnTo || '/')
+    // })
+    // helper.get('/auth/twitter', passport.authenticate('twitter'))
+    // helper.get('/auth/twitter/callback', passport.authenticate('twitter', { failureRedirect: '/login' }), (req, res) => {
+    //   res.redirect(req.session.returnTo || '/')
+    // })
+    // helper.get('/auth/linkedin', passport.authenticate('linkedin', { state: 'SOME STATE' }))
+    // helper.get('/auth/linkedin/callback', passport.authenticate('linkedin', { failureRedirect: '/login' }), (req, res) => {
+    //   res.redirect(req.session.returnTo || '/')
+    // })
+    //
+    // helper.get('/auth/foursquare', passport.authorize('foursquare'))
+    // helper.get('/auth/foursquare/callback', passport.authorize('foursquare', { failureRedirect: '/api' }), (req, res) => {
+    //   res.redirect('/api/foursquare')
+    // })
+    // helper.get('/auth/tumblr', passport.authorize('tumblr'))
+    // helper.get('/auth/tumblr/callback', passport.authorize('tumblr', { failureRedirect: '/api' }), (req, res) => {
+    //   res.redirect('/api/tumblr')
+    // })
+    // helper.get('/auth/steam', passport.authorize('openid', { state: 'SOME STATE' }))
+    // helper.get('/auth/steam/callback', passport.authorize('openid', { failureRedirect: '/login' }), (req, res) => {
+    //   res.redirect(req.session.returnTo || '/')
+    // })
+    // helper.get('/auth/pinterest', passport.authorize('pinterest', { scope: 'read_public write_public' }))
+    // helper.get('/auth/pinterest/callback', passport.authorize('pinterest', { failureRedirect: '/login' }), (req, res) => {
+    //   res.redirect('/api/pinterest')
+    // })
+}
+
 export default {
   initRoutes
 }

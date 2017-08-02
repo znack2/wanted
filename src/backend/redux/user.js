@@ -1,8 +1,9 @@
 import { takeEvery,put,select }        from 'redux-saga/effects'
 import responseService                 from './services/responseService'
-import getFailureMessage               from './services/getFailureMessage'
 import repositoryService               from './services/repositoryService'
 import validationService               from './services/validationService'
+import rules                           from '../../data/data/rules'
+
 
 /**
  * @apiDefine User access only
@@ -10,17 +11,22 @@ import validationService               from './services/validationService'
  */
 
 const name = `user`
+const rules = rules()
 
-export const types = {
+const types = {
   GET_SAGA: `${ name }/GET_SAGA`,
   POST_SAGA: `${ name }/POST_SAGA`,
   PUT_SAGA: `${ name }/PUT_SAGA`,
   DELETE_SAGA: `${ name }/DELETE_SAGA`,
+  REQUEST_SUCCESS: `${ name }/REQUEST_SUCCESS`,
+  REQUEST_FAILED: `${ name }/REQUEST_FAILED`,
 }
 
 const defaultState = {
   responseService,
-  validationService
+  repositoryService,
+  validationService,
+  rules,
 }
 
 const reducer = (state = defaultState, action) => {
@@ -61,41 +67,25 @@ const reducer = (state = defaultState, action) => {
  *       "error": "NoAccessRight"
  *     }
  */
-
-function* processGet() {
-
-
-    //get requests
+function* processGet(request, res) {
     // let id = req.query.id;
     // let search = req.query.search;
     // let sortOrder = req.query.sortOrder;
     // let pageNumber = req.query.pageNumber;
     // let pageSize = req.query.pageSize;
-
-    // repository
-    // let enrollments = await enrollmentRepository.getEnrollmentsByCourseId(courseId);
-    // let department = await departmentRepository.getDepartmentById(id);
-    // let result = await studentRepository.getStudents(search, sortOrder, pageNumber, pageSize);
-
-    // const data = getData(req)
+    // let data = req.body.department
 
   try {
-    //validate request
-    //get data from db
-    //return data through transformer
     const state = yield select()
-    const response = state.responseService
-    const validation = state.validationService
     const repository = state.repositoryService
-
-    yield validation.init({ request })
-    const data = yield repository.init({ request })
-    yield response.init({ data })
+    const response = state.responseService
+    
+    const data = yield repository.getData({ request })
+    yield response.sendData({ data })
     // return getResponse({data:data}, res)
-    // yield put({ type: types.EMAIL_SUCCESS, payload: result })
+    // yield put({ type: types.REQUEST_SUCCESS, payload: result })
   } catch (error) {
-    // getFailureMessage(err, res)
-    // yield put({ type: types.EMAIL_FAILED, payload: { error } })
+    yield put({ type: types.REQUEST_FAILED, payload: { error } })
   }
 }
 
@@ -115,69 +105,20 @@ function* processGet() {
  *
  * @apiUse User
  */
-
-function* processPost() {
-
-  // let data = req.body.department
-  //
-  // let schema = {
-  //   id: Joi.number(),
-  //   name: Joi.string().required(),
-  //   budget: Joi.number().required(),
-  //   startDate: Joi.date().format(config.format.date),
-  //   instructorId: Joi.number().required(),
-  //   id: Joi.number(),
-  //   firstName: Joi.string().required(),
-  //   lastName: Joi.string().required(),
-  //   hireDate: Joi.date().format(config.format.date),
-  //   courses: Joi.array().items(
-  //     Joi.object().keys({
-  //       id: Joi.number().required()
-  //     })
-  //   ),
-  //   officeAssignment: Joi.object().keys({
-  //     id: Joi.number(),
-  //     location: Joi.string().allow('')
-  //   })
-  // }
-
-
-  // let result = null
-  //
-  // let department = await helper.loadSchema(data, schema)
-  // if (department.id) {
-  //   result = await departmentRepository.updateDepartment(department)
-  // } else {
-  //   result = await departmentRepository.addDepartment(department)
-  // }
-  // await officeAssignmentRepository.saveOfficeAssignment(instructor.officeAssignment, result.id)
-  // department = await departmentRepository.getDepartmentById(result.id)
-
-
-
+function* processPost(request,res) {
   try {
-    //validate request
-    //store data to db
-    //return response ok
     const state = yield select()
-    const response = state.responseService
-    const validation = state.validationService
+    const validate = state.validationService
+    const rules = state.rules
     const repository = state.repositoryService
+    yield validate.user({ rules,request })
+    const data = yield repository.postData({ request })
 
-    yield validation.init({ request })
-    const data = yield repository.init({ request })
-    yield response.init({ data })
-    // return getResponse({data:data}, res)
-    // yield put({ type: types.EMAIL_SUCCESS, payload: result })
+    yield put({ type: types.REQUEST_SUCCESS, payload: data })
   } catch (error) {
-    // getFailureMessage(err, res)
-    // yield put({ type: types.EMAIL_FAILED, payload: { error } })
+    yield put({ type: types.REQUEST_FAILED, payload: { error } })
   }
 }
-
-
-
-
 
 /**
  * @api {put} /user/:id Change a new User
@@ -192,27 +133,20 @@ function* processPost() {
  *
  * @apiUse User
  */
-async function processPut(req, res) {
+function* processPut(request, res) {
   try {
-    //validate request
-    //store data to db
-    //return response ok
     const state = yield select()
-    const response = state.responseService
-    const validation = state.validationService
+    const validate = state.validationService
+    const rules = state.rules
     const repository = state.repositoryService
+    yield validate.user({ rules,request })
+    const data = yield repository.putData({ request })
 
-    yield validation.init({ request })
-    const data = yield repository.init({ request })
-    yield response.init({ data })
-    // return getResponse({data:data}, res)
-    // yield put({ type: types.EMAIL_SUCCESS, payload: result })
+    yield put({ type: types.REQUEST_SUCCESS, payload: data })
   } catch (error) {
-    // getFailureMessage(err, res)
-    // yield put({ type: types.EMAIL_FAILED, payload: { error } })
+    yield put({ type: types.REQUEST_FAILED, payload: { error } })
   }
 }
-
 
 /**
  * @api {delete} /users/:id Remove a task
@@ -223,36 +157,31 @@ async function processPut(req, res) {
  * @apiErrorExample {json} Delete error
  *    HTTP/1.1 500 Internal Server Error
  */
-async function processDelete(req, res) {
-
-  // let id = req.body.id;
-
-  // await departmentRepository.deleteDepartment(id);
-  // await officeAssignmentRepository.deleteOfficeAssignmentByInstructorId(id);
-  // await instructorRepository.deleteInstructor(id);
-
-
+function* processDelete(request, res) {
   try {
-    //validate request
-    //store data to db
-    //return response ok
     const state = yield select()
-    const response = state.responseService
-    const validation = state.validationService
     const repository = state.repositoryService
+    const data = yield repository.deleteData({ request },res)
 
-    yield validation.init({ request })
-    const data = yield repository.init({ request })
-    yield response.init({ data })
-    // return getResponse({data:data}, res)
-    // yield put({ type: types.EMAIL_SUCCESS, payload: result })
+    yield put({ type: types.REQUEST_SUCCESS, payload: data })
   } catch (error) {
-    // getFailureMessage(err, res)
-    // yield put({ type: types.EMAIL_FAILED, payload: { error } })
+    yield put({ type: types.REQUEST_FAILED, payload: { error } })
   }
 }
 
+function* processResponse() {
+  const state = yield select()
+  const response = state.responseService
 
+  yield response.sendSuccessMessage({ data })
+}
+
+function* processFailure() {
+  const state = yield select()
+  const response = state.responseService
+  // getFailureMessage(err, res)
+  yield response.sendFailureMessage({ data })
+}
 
 function* sagaGet() {
   yield takeEvery(types.GET_SAGA, processGet)
@@ -266,12 +195,20 @@ function* sagaPut() {
 function* sagaDelete() {
   yield takeEvery(types.DELETE_SAGA, processDelete)
 }
+function* sagaFailure() {
+  yield takeEvery(types.REQUEST_SUCCESS, processResponse)
+}
+function* sagaSuccess() {
+  yield takeEvery(types.REQUEST_FAILED, processFailure)
+}
 
 const sagaList = [
   sagaGet(),
   sagaPost(),
   sagaPut(),
   sagaDelete(),
+  sagaSuccess(),
+  sagaFailure(),
 ]
 
 export default {

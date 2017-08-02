@@ -3,12 +3,15 @@ import { all }              from 'redux-saga/effects'
 
 import app                  from './app'
 import db                   from './db'
-// import doc                  from './doc'
 import email                from './email'
 import error                from './error'
-// import file                 from './file'
 import log                  from './log'
 import push                 from './push'
+import user                 from './user'
+import response             from './response'
+import check                from './check'
+// import doc                  from './doc'
+// import file                 from './file'
 
 
 export default function* () {
@@ -19,6 +22,9 @@ export default function* () {
     ...error.sagaList,
     ...log.sagaList,
     ...push.sagaList,
+    ...user.sagaList,
+    ...response.sagaList,
+    ...check.sagaList,
   ])
 }
 

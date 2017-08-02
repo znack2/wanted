@@ -12,7 +12,7 @@ import sendError            from '../tasks/sendError'
 //render template -- return helper.renderView('home', {}, res)
 
 
-function sendFailureMessage(error, res) {
+function sendFailureMessage({ error }, res) {
   // res.send({'status': 'failure', message: errorMessage})
   // sendError({ error }, { isProxy: false })
   createLog({ error })
@@ -20,23 +20,24 @@ function sendFailureMessage(error, res) {
   res.send({'status': 'failure', message: error})
 }
 
-function sendSuccessMessage(message, res) {
+function sendSuccessMessage({ message }, res) {
   res.send({status: 'success', 'message': message})
 }
 
-function sendData(data, res) {
+function sendData(data, res)//return data through transformer
   data.status = 'success'
   res.send(data)
 }
 
-// function renderView(viewName, data, res) {
-//     if (!data) data = {}
-//
-//     data.appName = config.app.appName
-//     data.config = getClientConfig()
-//
-//     res.render(viewName, data)
-// }
+function renderView(config) {
+    // function renderView(viewName, data, res) {
+    // if (!data) data = {}
+
+    // data.appName = config.app.appName
+    // data.config = getClientConfig()
+    // res.render(viewName, data)
+    res.render(config.production.public, data)
+}
 
 // function loadSchema(data, schema) {
 //     let validationOptions = {
@@ -69,6 +70,6 @@ export default {
   sendFailureMessage,
   sendSuccessMessage,
   sendData,
-  // renderView,
+  renderView,
   // loadSchema
 }

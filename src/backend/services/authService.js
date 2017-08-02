@@ -6,7 +6,7 @@ import sendError            from '../tasks/sendError'
 import connectDB            from '../tasks/connectDB'
 
 import authController       from '../controllers/authController'
-import textValue            from './textValueHelper'
+// import textValue            from './textValueHelper'
 
 // let providerName = 'facebook'
 let providerName = 'google'
